@@ -55,13 +55,13 @@ $(document).ready(function ($) {
 
 // empty pages redirection
 
-document.addEventListener('DOMContentLoaded', function () {
-  let mainElement = document.querySelector('main#main');
+// document.addEventListener('DOMContentLoaded', function () {
+//   let mainElement = document.querySelector('main#main');
 
-  if (mainElement && mainElement.innerHTML.trim() === '') {
-    window.location.href = '/';
-  }
-});
+//   if (mainElement && mainElement.innerHTML.trim() === '') {
+//     window.location.href = '/';
+//   }
+// });
 
 /* imports */
 
