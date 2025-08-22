@@ -192,7 +192,7 @@ function scaffoldScssBlock(dir, slug) {
   const cls = slug;
   const scss = `.${cls}{
 \tposition:relative;
-\t&__wrapper{width:100%}
+\twidth:100%;
 }
 `;
   ensureFile(p, scss);
@@ -266,7 +266,8 @@ function pruneAcfLocalJson(localDir, keep, acfAliases) {
     if (!data) return;
     const title = String(data.title || data.label || '').trim();
     const isTitleBlock = /^block:\s*/i.test(title);
-    const isTitleKeep = /^(theme settings|component:|global:)/i.test(title);
+    const isTitleKeep = /^(theme settings|component|global)/i.test(title);
+
     const loc = data.location;
     let hasBlockRule = false,
       matches = false;
@@ -344,10 +345,12 @@ function run() {
     scssWoo: path.resolve('scss/woocommerce'),
     jsWoo: path.resolve('js/src/woocommerce'),
     acfLocal: path.resolve('acf/local-json'),
+    blocksDir: path.resolve('blocks'),
   };
+
   keep.forEach((slug) => {
     scaffoldPhpBlock(paths.phpBlocks, slug);
-    scaffoldPhpFrontend(paths.blocksDir, slug);
+    scaffoldPhpFrontend(paths.blocksDir, slug); // <-- to korzysta z blocksDir
     scaffoldScssBlock(paths.scssBlocks, mapSlug(slug, scssAliases));
     scaffoldJsBlock(paths.jsBlocks, mapSlug(slug, jsAliases));
     ensureAcfJson(paths.acfLocal, slug);
