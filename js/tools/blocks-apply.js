@@ -267,23 +267,24 @@ function pruneAcfLocalJson(localDir, keep, acfAliases) {
     const title = String(data.title || data.label || '').trim();
     const isTitleBlock = /^block:\s*/i.test(title);
     const isTitleKeep = /^(theme settings|component|global)/i.test(title);
-
     const loc = data.location;
-    let hasBlockRule = false,
-      matches = false;
+    let hasTargeted = false,
+      matches = false,
+      keepByRule = false;
     if (Array.isArray(loc)) {
       loc.forEach((andG) => {
         (andG || []).forEach((rule) => {
           if (rule && rule.param === 'block') {
-            hasBlockRule = true;
-            const v = String(rule.value || '');
+            const v = String(rule.value || '').toLowerCase();
+            if (v === 'all' || v === 'acf/all' || v === '*') keepByRule = true;
+            if (v.startsWith('acf/') && v !== 'acf/all') hasTargeted = true;
             if (full.has(v) || slugs.has(v.replace(/^acf\//, ''))) matches = true;
           }
         });
       });
     }
-    let isBlockGroup = hasBlockRule || isTitleBlock;
-    if (isTitleKeep) isBlockGroup = false;
+    let isBlockGroup = hasTargeted || isTitleBlock;
+    if (isTitleKeep || keepByRule) isBlockGroup = false;
     if (isBlockGroup && !matches) {
       removeFile(fullPath);
       removed.push(f);
