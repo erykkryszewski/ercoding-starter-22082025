@@ -226,7 +226,8 @@ function restrict_blocks_page_access()
   $current_domain = $_SERVER['HTTP_HOST'];
   $current_url = $_SERVER['REQUEST_URI'];
 
-  if (strpos($current_url, 'blocks') !== false && strpos($current_domain, 'ercodingstarter') === false) {
+  // if the URL contains 'blocks' and the domain does NOT contain 'ercoding'
+  if (strpos($current_url, 'blocks') !== false && strpos($current_domain, 'ercoding') === false) {
     wp_redirect(home_url());
     exit();
   }
