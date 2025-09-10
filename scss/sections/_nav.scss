@@ -127,6 +127,7 @@
       left: -15px;
       width: calc(100% + 30px);
       padding: 25px 0 30px;
+      height: calc(100dvh - 178px);
     }
 
     > li {
@@ -135,12 +136,11 @@
 
       @media (max-width: 1199px) {
         width: 100%;
-        text-align: center;
-        margin: 0;
+        margin: 0 0 0 15px;
       }
 
       &:first-child {
-        margin: 0;
+        margin: 0 0 0 15px;
       }
 
       > a {
@@ -189,12 +189,6 @@
         }
       }
 
-      &:last-child {
-        a {
-          padding: 5px 0 5px 5px;
-        }
-      }
-
       &.menu-item-has-children {
         > a {
           @media (min-width: 1200px) {
@@ -221,9 +215,12 @@
         }
 
         @media (max-width: 1199px) {
-          padding: 12px 0 20px;
-          background: $white;
+          padding: 12px 0 15px;
+          background: $very-light-gray;
           display: none;
+          left: 0;
+          right: 0;
+          max-width: calc(100% - 30px);
         }
 
         li {
