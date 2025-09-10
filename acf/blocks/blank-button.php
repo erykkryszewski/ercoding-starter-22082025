@@ -11,17 +11,12 @@ $button_after_icon = get_field('button_after_icon');
 ?>
 
 <?php if (!empty($button)): ?>
-<div class="blank-button <?php if ($centered == 'true') {
-  echo 'blank-button--centered';
-} ?> <?php if ($background == 'true') {
-   echo 'blank-button--background';
- } ?>">
+<div class="blank-button <?php if ($centered == 'true') { echo 'blank-button--centered'; } ?> <?php if ($background == 'true') { echo 'blank-button--background'; } ?>">
   <?php if (!empty($section_id)): ?>
   <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>
   <?php endif; ?>
   <div class="container">
-    <a href="<?php echo esc_html($button['url']); ?>" class="blank-button__button button"
-      target="<?php echo esc_html($button['target']); ?>">
+    <a href="<?php echo esc_html($button['url']); ?>" class="blank-button__button button" target="<?php echo esc_html($button['target']); ?>">
       <?php if (!empty($button_before_icon)): ?>
       <span class="button__icon button__icon--before">
         <?php echo wp_get_attachment_image($button_before_icon, 'full', '', [

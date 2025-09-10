@@ -40,11 +40,7 @@ $posts = new WP_Query($args);
           $posts->the_post(); ?>
         <div class="<?php echo esc_html($column_classes); ?> theme-blog__column">
           <div class="theme-blog__item">
-            <div class="theme-blog__image <?php if ($posts_number == 2) {
-              echo 'theme-blog__image--bigger';
-            } ?> <?php if ($posts_number == 4) {
-   echo 'theme-blog__image--smaller';
- } ?>">
+            <div class="theme-blog__image <?php if ($posts_number == 2) { echo 'theme-blog__image--bigger'; } ?> <?php if ($posts_number == 4) { echo 'theme-blog__image--smaller'; } ?>">
               <a href="<?php the_permalink(); ?>" class="cover"></a>
               <?php echo wp_get_attachment_image(get_post_thumbnail_id(), 'large', '', [
                 'class' => 'object-fit-cover',
@@ -66,18 +62,13 @@ $posts = new WP_Query($args);
                   ?>
                 </p>
               </div>
-              <a href="<?php the_permalink(); ?>"
-                class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
+              <a href="<?php the_permalink(); ?>" class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
             </div>
           </div>
         </div>
         <div class="<?php echo esc_html($column_classes); ?> theme-blog__column">
           <div class="theme-blog__item">
-            <div class="theme-blog__image <?php if ($posts_number == 2) {
-              echo 'theme-blog__image--bigger';
-            } ?> <?php if ($posts_number == 4) {
-   echo 'theme-blog__image--smaller';
- } ?>">
+            <div class="theme-blog__image <?php if ($posts_number == 2) { echo 'theme-blog__image--bigger'; } ?> <?php if ($posts_number == 4) { echo 'theme-blog__image--smaller'; } ?>">
               <a href="<?php the_permalink(); ?>" class="cover"></a>
               <?php echo wp_get_attachment_image(get_post_thumbnail_id(), 'large', '', [
                 'class' => 'object-fit-cover',
@@ -99,18 +90,13 @@ $posts = new WP_Query($args);
                   ?>
                 </p>
               </div>
-              <a href="<?php the_permalink(); ?>"
-                class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
+              <a href="<?php the_permalink(); ?>" class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
             </div>
           </div>
         </div>
         <div class="<?php echo esc_html($column_classes); ?> theme-blog__column">
           <div class="theme-blog__item">
-            <div class="theme-blog__image <?php if ($posts_number == 2) {
-              echo 'theme-blog__image--bigger';
-            } ?> <?php if ($posts_number == 4) {
-   echo 'theme-blog__image--smaller';
- } ?>">
+            <div class="theme-blog__image <?php if ($posts_number == 2) { echo 'theme-blog__image--bigger'; } ?> <?php if ($posts_number == 4) { echo 'theme-blog__image--smaller';  } ?>">
               <a href="<?php the_permalink(); ?>" class="cover"></a>
               <?php echo wp_get_attachment_image(get_post_thumbnail_id(), 'large', '', [
                 'class' => 'object-fit-cover',
@@ -132,8 +118,7 @@ $posts = new WP_Query($args);
                   ?>
                 </p>
               </div>
-              <a href="<?php the_permalink(); ?>"
-                class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
+              <a href="<?php the_permalink(); ?>" class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
             </div>
           </div>
         </div>

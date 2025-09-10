@@ -10,11 +10,7 @@ $image_class = get_field('image_class');
 ?>
 
 <?php if (!empty($image)): ?>
-<div class="<?php if ($full_width == 'true') {
-  echo 'container-fluid';
-} else {
-  echo 'container';
-} ?>">
+<div class="<?php if ($full_width == 'true') { echo 'container-fluid'; } else { echo 'container'; } ?>">
   <div class="blank-image" style="height:<?php echo esc_html($height); ?>px">
     <?php if (!empty($section_id)): ?>
     <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>
