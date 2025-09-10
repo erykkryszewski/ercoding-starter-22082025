@@ -7,12 +7,11 @@ $pointers_or_numbers = get_field('pointers_or_numbers');
 ?>
 
 <?php if (!empty($list)): ?>
-<div
-  class="list <?php if ($pointers_or_numbers == 'pointers') {
-    echo 'list--unordered';
-  } else {
-    echo 'list--ordered';
-  } ?> <?php if ($background == 'true') {
+<div class="list <?php if ($pointers_or_numbers == 'pointers') {
+  echo 'list--unordered';
+} else {
+  echo 'list--ordered';
+} ?> <?php if ($background == 'true') {
    echo 'list--background';
  } ?>">
   <?php if (!empty($section_id)): ?>
@@ -21,12 +20,11 @@ $pointers_or_numbers = get_field('pointers_or_numbers');
   <div class="container">
     <div class="list__wrapper">
       <?php foreach ($list as $key => $item): ?>
-      <div
-        class="list__item <?php if ($pointers_or_numbers == 'pointers') {
-          echo 'list__item--unordered';
-        } else {
-          echo 'list__item--ordered';
-        } ?>">
+      <div class="list__item <?php if ($pointers_or_numbers == 'pointers') {
+        echo 'list__item--unordered';
+      } else {
+        echo 'list__item--ordered';
+      } ?>">
         <?php if ($pointers_or_numbers == 'numbers'): ?>
         <span class="list__number">
           <?php echo $key + 1; ?>

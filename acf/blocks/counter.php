@@ -14,7 +14,7 @@ $counter_hour = get_field('counter_hour');
 $final_time_string = $counter_date . ' ' . $counter_hour;
 $user_timezone = new DateTimeZone('Europe/Berlin');
 $final_time = new DateTime($final_time_string, $user_timezone);
-$now = new DateTime('now', $user_timezone);
+$now =  new DateTime('now' , $user_timezone);
 ?>
 
 <?php if ($now < $final_time): ?>
@@ -31,11 +31,9 @@ $now = new DateTime('now', $user_timezone);
           <?php if (!empty($text)): ?>
           <?php echo apply_filters('acf_the_content', str_replace('&nbsp;', ' ', $text)); ?>
           <?php endif; ?>
-          <!-- <?php if (!empty($button)): ?>
-              <a href="<?php echo esc_html($button['url']); ?>" target="<?php echo esc_html(
-  $button['target'],
-); ?>" class="button counter__button"><?php echo esc_html($button['title']); ?></a>
-            <?php endif; ?> -->
+          <?php if (!empty($button)): ?>
+          <a href="<?php echo esc_html($button['url']); ?>" target="<?php echo esc_html($button['target'],); ?>" class="button counter__button"><?php echo esc_html($button['title']); ?></a>
+          <?php endif; ?>
         </div>
       </div>
       <div class="col-12 col-xl-7">
