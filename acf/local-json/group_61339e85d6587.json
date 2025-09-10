@@ -3,31 +3,11 @@
     "title": "Block: Text with image",
     "fields": [
         {
-            "key": "field_61339ea0c5894",
-            "label": "Title",
-            "name": "title",
+            "key": "field_61339eafc5895",
+            "label": "Content",
+            "name": "content",
             "aria-label": "",
-            "type": "textarea",
-            "instructions": "",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "maxlength": "",
-            "rows": 2,
-            "new_lines": "br"
-        },
-        {
-            "key": "field_6133a12bc133b",
-            "label": "Subtitle",
-            "name": "subtitle",
-            "aria-label": "",
-            "type": "textarea",
+            "type": "wysiwyg",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -37,30 +17,10 @@
                 "id": ""
             },
             "default_value": "",
-            "placeholder": "",
-            "maxlength": "",
-            "rows": 2,
-            "new_lines": "br"
-        },
-        {
-            "key": "field_61339eafc5895",
-            "label": "Text",
-            "name": "text",
-            "aria-label": "",
-            "type": "textarea",
-            "instructions": "",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "maxlength": "",
-            "rows": 5,
-            "new_lines": "wpautop"
+            "tabs": "visual",
+            "toolbar": "full",
+            "media_upload": 0,
+            "delay": 1
         },
         {
             "key": "field_61339ed3c5896",
@@ -247,5 +207,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1717019002
+    "modified": 1757521062
 }

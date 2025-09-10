@@ -2,9 +2,7 @@
 $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 $section_id = get_field('section_id');
 $background = get_field('background');
-$title = get_field('title');
-$subtitle = get_field('subtitle');
-$text = get_field('text');
+$content = get_field('content');
 $image = get_field('image');
 $image_class = get_field('image_class');
 $image_size = get_field('image_size');
@@ -24,15 +22,11 @@ $button_full_width = get_field('button_full_width');
       echo 'text-with-image__row--reverse';
     } ?>">
       <div class="col-12 col-md-6">
-        <?php if (!empty($title)): ?>
-        <h2 class="text-with-image__title"><?php echo apply_filters('the_title', $title); ?></h2>
-        <?php endif; ?>
-        <?php if (!empty($subtitle)): ?>
-        <h3 class="text-with-image__subtitle"><?php echo apply_filters('the_title', $subtitle); ?></h3>
-        <?php endif; ?>
-        <div>
-          <?php echo apply_filters('acf_the_content', str_replace('&nbsp;', ' ', $text)); ?>
+        <?php if (!empty($content)): ?>
+        <div class="text-with-image__content">
+          <?php echo apply_filters('the_title', $content); ?>
         </div>
+        <?php endif; ?>
         <?php if (!empty($button)): ?>
         <a href="<?php echo esc_html($button['url']); ?>" class="button text-with-image__button <?php if (
   'true' == $button_full_width

@@ -170,18 +170,20 @@
             "aria-label": "",
             "type": "repeater",
             "instructions": "",
-            "required": 1,
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "collapsed": "",
+            "layout": "table",
+            "pagination": 0,
             "min": 0,
             "max": 0,
-            "layout": "table",
+            "collapsed": "",
             "button_label": "Add Row",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_5f7b3451d78fa",
@@ -230,8 +232,7 @@
                     "maxlength": "",
                     "parent_repeater": "field_5f7b3447d78f9"
                 }
-            ],
-            "rows_per_page": 20
+            ]
         },
         {
             "key": "field_600d9bca18051",
@@ -572,5 +573,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1755802228
+    "modified": 1757513779
 }

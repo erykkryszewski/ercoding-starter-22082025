@@ -256,28 +256,3 @@ add_filter('pre_site_transient_update_themes', '__return_null');
 add_action('admin_footer-index.php', function () {
   echo '<style>#dashboard-widgets-wrap,#welcome-panel,.notice,.update-nag,#screen-meta,#screen-meta-links{display:none!important}.erc-msg{margin:10px 0 0;text-align:left;font-size:17px;font-weight:400}</style><script>document.addEventListener("DOMContentLoaded",function(){var h=document.querySelector(".wrap h1");if(h){var d=document.createElement("div");d.className="erc-msg";d.textContent="Finally there is no mess here 😊";h.insertAdjacentElement("afterend",d);}});</script>';
 });
-
-// function display_server_info()
-// {
-//   echo '<div style="background: #f5f5f5; padding: 20px; margin: 20px; border: 1px solid #ddd;">';
-//   echo '<h3>Informacje o serwerze:</h3>';
-//   echo '<pre>';
-
-//   echo '<strong>PHP Version:</strong> ' . phpversion() . "\n";
-//   echo '<strong>Memory Limit:</strong> ' . ini_get('memory_limit') . "\n";
-//   echo '<strong>Max Execution Time:</strong> ' . ini_get('max_execution_time') . " sekund\n";
-//   echo '<strong>Max Input Vars:</strong> ' . ini_get('max_input_vars') . "\n";
-//   echo '<strong>Post Max Size:</strong> ' . ini_get('post_max_size') . "\n";
-//   echo '<strong>Upload Max Filesize:</strong> ' . ini_get('upload_max_filesize') . "\n";
-
-//   echo "\n<strong>Server Software:</strong> " . $_SERVER['SERVER_SOFTWARE'] . "\n";
-//   echo '<strong>Server Name:</strong> ' . $_SERVER['SERVER_NAME'] . "\n";
-//   echo '<strong>Server Protocol:</strong> ' . $_SERVER['SERVER_PROTOCOL'] . "\n";
-
-//   // huge output, can be commented
-//   echo "\n<strong>Wszystkie zmienne PHP:</strong>\n";
-//   print_r($_SERVER);
-
-//   echo '</pre>';
-//   echo '</div>';
-// }

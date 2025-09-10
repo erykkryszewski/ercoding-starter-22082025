@@ -5,12 +5,9 @@
   max-width: 100%;
   text-align: center;
 
-  &--background {
-    background: $very-light-gray;
-  }
-
   &__wrapper {
     width: 100%;
+    padding: 20px 0;
   }
 
   &__viewport {
@@ -21,76 +18,66 @@
   &__items {
     display: inline-flex;
     align-items: center;
-    gap: 32px;
+    gap: 64px;
     white-space: nowrap;
     will-change: transform;
-    animation: logos-marquee 30s linear infinite;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0);
+
+    .logos.is-paused & {
+      transition: none;
+    }
+
+    @media (max-width: 1399px) {
+      gap: 44px;
+    }
+    @media (max-width: 1199px) {
+      gap: 40px;
+    }
+    @media (max-width: 991px) {
+      gap: 32px;
+    }
+    @media (max-width: 767px) {
+      gap: 24px;
+    }
   }
 
   &__image {
-    width: 220px;
-    height: 90px;
+    width: 150px;
+    height: 65px;
     flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none;
-  }
 
-  &__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-
-  @media (max-width: 1399px) {
-    &__items {
-      gap: 28px;
-    }
-    &__image {
-      width: 200px;
-      height: 84px;
-    }
-  }
-
-  @media (max-width: 1199px) {
-    &__items {
-      gap: 24px;
-    }
-    &__image {
-      width: 180px;
+    @media (max-width: 1399px) {
+      width: 184px;
       height: 78px;
     }
+    @media (max-width: 1199px) {
+      width: 172px;
+      height: 74px;
+    }
+    @media (max-width: 991px) {
+      width: 156px;
+      height: 70px;
+    }
+    @media (max-width: 767px) {
+      width: 128px;
+      height: 64px;
+    }
+    @media (max-width: 550px) {
+      width: 90px;
+      height: 40px;
+    }
   }
 
-  @media (max-width: 991px) {
-    &__items {
-      gap: 20px;
+  &__image {
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
-    &__image {
-      width: 160px;
-      height: 72px;
-    }
-  }
-
-  @media (max-width: 767px) {
-    &__items {
-      gap: 16px;
-    }
-    &__image {
-      width: 130px;
-      height: 66px;
-    }
-  }
-}
-
-@keyframes logos-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
   }
 }
