@@ -4,12 +4,9 @@ $section_id = get_field("section_id");
 $background = get_field("background");
 $team = get_field("team");
 ?>
+
 <?php if (!empty($team)): ?>
-<div
-  class="team <?php if ($background == 'true') {
-  echo 'team--background';
-} ?>"
->
+<div class="team <?php if ($background == 'true') { echo 'team--background'; } ?>">
   <?php if (!empty($section_id)): ?>
   <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>
   <?php endif; ?>
@@ -20,11 +17,7 @@ $team = get_field("team");
         <div class="col-6 col-md-4 col-lg-3">
           <div class="team__item">
             <?php if (!empty($item['image'])): ?>
-            <div
-              class="team__image <?php if ($item['image_class'] == 'object-fit-contain') {
-                echo 'team__image--padding';
-              } ?>"
-            >
+            <div class="team__image <?php if ($item['image_class'] == 'object-fit-contain') { echo 'team__image--padding';} ?>">
               <?php echo wp_get_attachment_image($item['image'], 'team-image', '', [ 'class' => $item['image_class'], ]); ?>
             </div>
             <?php endif; ?>

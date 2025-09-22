@@ -10,12 +10,7 @@ $centered = get_field("centered");
 
 <div class="section-title <?php if ($background == 'true') { echo 'section-title--background';} ?>" id="section-<?php echo esc_html($section_id); ?>">
   <?php if (!empty($section_id)): ?>
-  <div
-    class="section-id <?php if ($background == 'true') {
-    echo 'section-id--background';
-  } ?>"
-    id="<?php echo esc_html($section_id); ?>"
-  ></div>
+  <div class="section-id <?php if ($background == 'true') { echo 'section-id--background'; } ?>" id="<?php echo esc_html($section_id); ?>"></div>
   <?php endif; ?>
   <div class="container">
     <div class="section-title__wrapper <?php if ($centered == 'true') { echo 'section-title__wrapper--centered'; } else { echo 'section-title__wrapper--decorated'; } ?>">

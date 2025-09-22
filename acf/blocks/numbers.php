@@ -1,16 +1,14 @@
 <?php
-$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-$section_id = get_field('section_id');
-$background = get_field('background');
-$title = get_field('title');
-$text = get_field('text');
-$numbers_item = get_field('numbers_item');
+$url = "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+$section_id = get_field("section_id");
+$background = get_field("background");
+$title = get_field("title");
+$text = get_field("text");
+$numbers_item = get_field("numbers_item");
 ?>
 
 <?php if (!empty($numbers_item)): ?>
-<div class="numbers <?php if ($background == 'true') {
-  echo 'numbers--background';
-} ?>">
+<div class="numbers <?php if ($background == 'true') { echo 'numbers--background'; } ?>">
   <?php if (!empty($section_id)): ?>
   <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>
   <?php endif; ?>
@@ -21,22 +19,15 @@ $numbers_item = get_field('numbers_item');
         <?php if (!empty($item['link_direction'])): ?>
         <a href="<?php esc_url_raw($item['link_direction']); ?>">
           <?php if (!empty($item['icon'])): ?>
-          <div class="numbers__icon">
-            <?php echo wp_get_attachment_image($item['icon'], 'numbers-icon', '', ['class' => '']); ?>
-          </div>
+          <div class="numbers__icon"><?php echo wp_get_attachment_image($item['icon'], 'numbers-icon', '', ['class' => '']); ?></div>
           <?php endif; ?>
-          <span class="numbers__digit" data-count="<?php echo $item['number']; ?>"
-            id="numbers__digit<?php echo $key; ?>">000</span>
+          <span class="numbers__digit" data-count="<?php echo $item['number']; ?>" id="numbers__digit<?php echo $key; ?>">000</span>
           <p class="numbers__title"><?php echo $item['title']; ?></p>
         </a>
-        <?php else: ?>
-        <?php if (!empty($item['icon'])): ?>
-        <div class="numbers__icon">
-          <?php echo wp_get_attachment_image($item['icon'], 'numbers-icon', '', ['class' => '']); ?>
-        </div>
+        <?php else: ?> <?php if (!empty($item['icon'])): ?>
+        <div class="numbers__icon"><?php echo wp_get_attachment_image($item['icon'], 'numbers-icon', '', ['class' => '']); ?></div>
         <?php endif; ?>
-        <span class="numbers__digit" data-count="<?php echo $item['number']; ?>"
-          id="numbers__digit<?php echo $key; ?>">000</span>
+        <span class="numbers__digit" data-count="<?php echo $item['number']; ?>" id="numbers__digit<?php echo $key; ?>">000</span>
         <p class="numbers__title"><?php echo $item['title']; ?></p>
         <?php endif; ?>
       </div>

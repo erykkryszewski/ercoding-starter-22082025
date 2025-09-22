@@ -4,12 +4,9 @@ $section_id = get_field("section_id");
 $background = get_field("background");
 $text = get_field("text");
 ?>
+
 <?php if (!empty($text)): ?>
-<div
-  class="motto-bar <?php if ($background == 'true') {
-  echo 'motto-bar--background';
-} ?>"
->
+<div class="motto-bar <?php if ($background == 'true') { echo 'motto-bar--background'; } ?>">
   <?php if (!empty($section_id)): ?>
   <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>
   <?php endif; ?>

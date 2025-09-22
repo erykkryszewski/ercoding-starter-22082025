@@ -20,10 +20,7 @@ $offer = get_field("offer");
           <?php if(!empty($item['button'])):?>
           <a href="<?php echo esc_url($item['button']['url']);?>" class="cover"></a>
           <?php endif;?> <?php if(!empty($item['image'])):?>
-          <div class="offer__image">
-            <?php echo wp_get_attachment_image($item['image'],'large',false,['class'=>
-            'object-fit-cover']);?>
-          </div>
+          <div class="offer__image"><?php echo wp_get_attachment_image($item['image'],'large',false,['class'=> 'object-fit-cover']);?></div>
           <?php endif;?>
           <h3 class="offer__title"><?php echo apply_filters('the_title',$item['title']);?></h3>
           <p><?php echo apply_filters('the_title',$item['text']);?></p>

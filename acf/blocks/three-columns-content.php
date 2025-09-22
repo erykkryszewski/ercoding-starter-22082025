@@ -1,14 +1,12 @@
 <?php
-$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-$section_id = get_field('section_id');
-$background = get_field('background');
-$content = get_field('content');
+$url = "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+$section_id = get_field("section_id");
+$background = get_field("background");
+$content = get_field("content");
 ?>
 
 <?php if (!empty($content)): ?>
-<section class="three-columns-content <?php if ($background == 'true') {
-  echo 'three-columns-content--background';
-} ?>">
+<section class="three-columns-content <?php if ($background == 'true') { echo 'three-columns-content--background'; } ?>">
   <?php if (!empty($section_id)): ?>
   <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>
   <?php endif; ?>
@@ -18,12 +16,12 @@ $content = get_field('content');
       <div class="col-md-6 col-lg-4">
         <div class="three-columns-content__item">
           <h3 class="three-columns-content__title"><?php echo apply_filters('the_title', $item['title']); ?></h3>
-          <?php echo apply_filters('the_title', $item['text']); ?>
-          <?php if (!empty($item['button'])): ?>
-          <a href="<?php echo esc_html($item['button']['url']); ?>"
-            class="button button--ghost three-columns-content__button"><?php echo esc_html(
+          <?php echo apply_filters('the_title', $item['text']); ?> <?php if (!empty($item['button'])): ?>
+          <a href="<?php echo esc_html($item['button']['url']); ?>" class="button button--ghost three-columns-content__button">
+            <?php echo esc_html(
               $item['button']['title'],
-            ); ?></a>
+            ); ?>
+          </a>
           <?php endif; ?>
         </div>
       </div>
