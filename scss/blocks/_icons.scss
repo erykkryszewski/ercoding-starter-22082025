@@ -1,38 +1,38 @@
 .icons {
-  width: 100%;
-  position: relative;
-
-  &--background {
-    background: $very-light-gray;
-  }
-
-  &__wrapper {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: auto;
+    position: relative;
 
-    @media(max-width: 1199px) {
-      flex-wrap: wrap;
-      justify-content: center;
+    &--background {
+        background: $very-light-gray;
     }
-  }
 
-  &__item {
-    max-width: 230px;
-    text-align: center;
-    padding: 15px;
-    width: 100%;
+    &__wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin: auto;
 
-    > div {
-      width: 58px;
-      height: 58px;
-      overflow: hidden;
-      margin: auto;
-      
-      img {
-        max-width: 100%;
-      }
+        @media (width <= 1199px) {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     }
-  }
+
+    &__item {
+        max-width: 230px;
+        text-align: center;
+        padding: 15px;
+        width: 100%;
+
+        > div {
+            width: 58px;
+            height: 58px;
+            overflow: hidden;
+            margin: auto;
+
+            img {
+                max-width: 100%;
+            }
+        }
+    }
 }

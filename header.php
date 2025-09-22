@@ -30,9 +30,7 @@ $body_classes = get_body_class();
 
     <body <?php if (!is_front_page()) { body_class('theme-subpage'); } else { body_class('theme-frontpage');} ?>>
         <div class="preloader">
-            <div class="preloader__logo">
-                <?php if (!empty($theme_sign)) { echo wp_get_attachment_image($theme_sign, 'full', '', ['class' => '']); } else { echo ''; } ?>
-            </div>
+            <div class="preloader__logo"><?php if (!empty($theme_sign)) { echo wp_get_attachment_image($theme_sign, 'full', '', ['class' => '']); } else { echo ''; } ?></div>
         </div>
         <header class="header <?php if (!is_front_page()) { echo 'header--subpage'; } ?>">
             <div class="top-bar">
@@ -47,9 +45,7 @@ $body_classes = get_body_class();
                             <ul class="social-media top-bar__social-media <?php if (!is_front_page()) { echo 'top-bar__social-media--subpage'; } ?>">
                                 <?php foreach ($global_social_media as $key => $item): ?>
                                 <li>
-                                    <a href="<?php echo esc_url_raw($item['link']); ?>" target="_blank">
-                                        <?php if (!empty($item['icon'])) { echo wp_get_attachment_image($item['icon'], 'large', '', ['class' => '']); } ?>
-                                    </a>
+                                    <a href="<?php echo esc_url_raw($item['link']); ?>" target="_blank"><?php if (!empty($item['icon'])) { echo wp_get_attachment_image($item['icon'], 'large', '', ['class' => '']); } ?></a>
                                 </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -90,13 +86,9 @@ $body_classes = get_body_class();
                         <?php endif; ?> <?php if (!empty($header_button)): ?>
                         <a href="<?php echo esc_html($header_button['url']); ?>" class="button nav__button <?php if (!is_front_page()) { echo 'nav__button--subpage'; } ?>" target="<?php echo esc_html($header_button['target']); ?>">
                             <?php if (!empty($header_button_before_icon)): ?>
-                            <span class="button__icon button__icon--before">
-                                <?php echo wp_get_attachment_image($header_button_before_icon, 'full', '', [ 'loading' => 'eager', 'decoding' => 'async', ]); ?>
-                            </span>
+                            <span class="button__icon button__icon--before"><?php echo wp_get_attachment_image($header_button_before_icon, 'full', '', [ 'loading' => 'eager', 'decoding' => 'async', ]); ?></span>
                             <?php endif; ?> <?php echo esc_html($header_button['title']); ?> <?php if (!empty($header_button_after_icon)): ?>
-                            <span class="button__icon button__icon--after">
-                                <?php echo wp_get_attachment_image($header_button_after_icon, 'full', '', [ 'loading' => 'eager', 'decoding' => 'async', ]); ?>
-                            </span>
+                            <span class="button__icon button__icon--after"><?php echo wp_get_attachment_image($header_button_after_icon, 'full', '', [ 'loading' => 'eager', 'decoding' => 'async', ]); ?></span>
                             <?php endif; ?>
                         </a>
                         <?php endif; ?>

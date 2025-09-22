@@ -1,85 +1,92 @@
 .wyswig-content {
-  width: 100%;
-  position: relative;
-
-  &--background {
-    background: $very-light-gray;
-  }
-
-  &__wrapper {
     width: 100%;
+    position: relative;
 
-    h1, h2, h3, h4, h5 {
-      margin-bottom: 25px;
-
-      em {
-        font-size: inherit;
-        line-height: inherit;
-        font-style: normal;
-
-        strong {
-          font-weight: inherit;
-        }
-      }
+    &--background {
+        background: $very-light-gray;
     }
 
-    ul, ol {
-      margin: 20px 0 0;
-      
-      li {
-        @extend .paragraph;
-        margin: 0;
-        display: block;
-        padding: 0 0 0 18px;
-        position: relative;
+    &__wrapper {
+        width: 100%;
 
-        &::before {
-          display: block;
-          margin: 0;
-          position: absolute;
-          left: 0;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            margin-bottom: 25px;
+
+            em {
+                font-size: inherit;
+                line-height: inherit;
+                font-style: normal;
+
+                strong {
+                    font-weight: inherit;
+                }
+            }
         }
 
-        strong {
-          width: auto;
+        ul,
+        ol {
+            margin: 20px 0 0;
+
+            li {
+                margin: 0;
+                display: block;
+                padding: 0 0 0 18px;
+                position: relative;
+
+                &::before {
+                    display: block;
+                    margin: 0;
+                    position: absolute;
+                    left: 0;
+                }
+
+                strong {
+                    width: auto;
+                }
+
+                @extend .paragraph;
+            }
         }
-      }
-    }
 
-    ul {
-      li {
-        &::before {
-          content: '•';
-          font-size: 23px;
-          top: -4px;
+        ul {
+            li {
+                &::before {
+                    content: "•";
+                    font-size: 23px;
+                    top: -4px;
+                }
+            }
         }
-      }
-    }
 
-    ol {
-      counter-reset: li-counter;
-      li {
-        counter-increment: li-counter;
+        ol {
+            counter-reset: li-counter;
 
-        &::before {
-          content: counter(li-counter) '.';
+            li {
+                counter-increment: li-counter;
+
+                &::before {
+                    content: counter(li-counter) ".";
+                }
+            }
         }
-      }
-    }
 
-    p {
-      margin-bottom: 15px;
+        p {
+            margin-bottom: 15px;
 
-      em {
-        font-size: inherit;
-        line-height: inherit;
-      }
-    }
+            em {
+                font-size: inherit;
+                line-height: inherit;
+            }
+        }
 
-    > * {
-      &:first-child {
-        margin-top: 0;
-      }
+        > * {
+            &:first-child {
+                margin-top: 0;
+            }
+        }
     }
-  }
 }

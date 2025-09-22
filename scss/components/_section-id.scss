@@ -1,24 +1,24 @@
 .section-id {
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  z-index: -1;
-  pointer-events: none;
-  position: absolute;
-  left: 0;
-  top: -100px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: -100px;
 
-  &--background {
-    top: -60px;
-  }
+    &--background {
+        top: -60px;
+    }
 }
 
 body.admin-bar {
-  .section-id {
-    top: -135px;
+    .section-id {
+        top: -135px;
 
-    &--background {
-      top: -92px;
+        &--background {
+            top: -92px;
+        }
     }
-  }
 }

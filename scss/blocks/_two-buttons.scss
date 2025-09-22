@@ -1,31 +1,31 @@
 .two-buttons {
-  width: 100%;
-  position: relative;
-
-  &--background {
-    background: $very-light-gray;
-  }
-
-  &__wrapper {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
+    position: relative;
 
-    @media(max-width: 767px) {
-      flex-direction: column;
-    }
-  }
-
-  &__button {
-    @media(max-width: 767px) {
-      min-width: 203px;
-      text-align: center;
+    &--background {
+        background: $very-light-gray;
     }
 
-    &:last-child {
-      margin: 0 0 0 15px;
+    &__wrapper {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+
+        @media (width <= 767px) {
+            flex-direction: column;
+        }
     }
-  }
+
+    &__button {
+        &:last-child {
+            margin: 0 0 0 15px;
+        }
+
+        @media (width <= 767px) {
+            min-width: 203px;
+            text-align: center;
+        }
+    }
 }

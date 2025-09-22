@@ -50,7 +50,9 @@ $footer_third_column_content = get_field("footer_third_column_content", "options
                     <div class="row">
                         <div class="col-12 col-lg-4">
                             <div class="footer__column">
-                                <a href="/" class="footer__logo mb-4"><?php if(!empty($global_logo)) { echo wp_get_attachment_image($global_logo, 'full', '', ["class" => ""]); } else { echo 'Logo'; } ?></a>
+                                <a href="/" class="footer__logo mb-4">
+                                    <?php if(!empty($global_logo)) { echo wp_get_attachment_image($global_logo, 'full', '', ["class" => ""]); } else { echo 'Logo'; } ?>
+                                </a>
                                 <?php if(!empty($global_phone_number)):?>
                                 <a href="tel:<?php echo esc_html($global_phone_number);?>" class="footer__phone ercodingtheme-phone-number">Tel: <?php echo esc_html($global_phone_number);?></a>
                                 <?php endif;?> <?php if(!empty($global_email)):?>
@@ -63,7 +65,9 @@ $footer_third_column_content = get_field("footer_third_column_content", "options
                                 <?php endif;?> <?php if(!empty($global_social_media)):?>
                                 <div class="social-media footer__social-media">
                                     <?php foreach($global_social_media as $key => $item):?>
-                                    <a href="<?php echo esc_url_raw($item['link']);?>" target="_blank"><?php echo wp_get_attachment_image($item['icon'], 'full', '', ['class' => 'object-fit-contain']);?></a>
+                                    <a href="<?php echo esc_url_raw($item['link']);?>" target="_blank">
+                                        <?php echo wp_get_attachment_image($item['icon'], 'full', '', ['class' => 'object-fit-contain']);?>
+                                    </a>
                                     <?php endforeach;?>
                                 </div>
                                 <?php endif;?>
@@ -84,10 +88,7 @@ $footer_third_column_content = get_field("footer_third_column_content", "options
             <div class="bottom-bar">
                 <div class="container">
                     <div class="bottom-bar__wrapper">
-                        <p>
-                            <?php _e('Copyright', 'ercodingtheme');?>
-                            © <?php echo date("Y"); ?>&nbsp;<?php _e('Ercoding', 'ercodingtheme');?>
-                        </p>
+                        <p><?php _e('Copyright', 'ercodingtheme');?> © <?php echo date("Y"); ?>&nbsp;<?php _e('Ercoding', 'ercodingtheme');?></p>
                         <p>
                             Strona stworzona przez
                             <a href="https://ercoding.pl/" target="_blank">Ercoding</a>

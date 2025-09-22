@@ -1,59 +1,59 @@
 .gallery {
-  width: 100%;
-  max-width: 100vw;
-  overflow: hidden;
-  position: relative;
-
-  @media (max-width: 767px) {
-    padding: 0 15px;
-  }
-
-  &--background {
-    background: $very-light-gray;
-  }
-
-  &__slider {
     width: 100%;
-
-    .slick-slide {
-      margin: 0 15px;
-
-      @media (max-width: 767px) {
-        margin: 0 7.5px;
-      }
-    }
-
-    .slick-list {
-      margin: 0 -15px;
-
-      @media (max-width: 767px) {
-        margin: 0 -7.5px;
-      }
-    }
-  }
-
-  &__image {
-    width: 100%;
-    height: 280px;
-    margin: -6px 0 0;
-    padding: 0;
+    max-width: 100vw;
     overflow: hidden;
-    background: $black;
+    position: relative;
 
-    &--full-width {
-      height: 400px;
+    &--background {
+        background: $very-light-gray;
     }
 
-    @media (max-width: 1599px) {
-      height: 330px;
+    &__slider {
+        width: 100%;
+
+        .slick-slide {
+            margin: 0 15px;
+
+            @media (width <= 767px) {
+                margin: 0 7.5px;
+            }
+        }
+
+        .slick-list {
+            margin: 0 -15px;
+
+            @media (width <= 767px) {
+                margin: 0 -7.5px;
+            }
+        }
     }
 
-    @media (max-width: 1199px) {
-      height: 250px;
+    &__image {
+        width: 100%;
+        height: 280px;
+        margin: -6px 0 0;
+        padding: 0;
+        overflow: hidden;
+        background: $black;
+
+        &--full-width {
+            height: 400px;
+        }
+
+        @media (width <= 1599px) {
+            height: 330px;
+        }
+
+        @media (width <= 1199px) {
+            height: 250px;
+        }
+
+        @media (width <= 767px) {
+            height: 200px;
+        }
     }
 
-    @media (max-width: 767px) {
-      height: 200px;
+    @media (width <= 767px) {
+        padding: 0 15px;
     }
-  }
 }

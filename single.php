@@ -17,12 +17,12 @@ $prev_post = get_previous_post();
 $next_post = get_next_post();
 
 // CPT
-$hero_title = get_field('hero_title', $page_id);
-$hero_text = get_field('hero_text', $page_id);
+$hero_title = get_field("hero_title", $page_id);
+$hero_text = get_field("hero_text", $page_id);
 
 //blog
-$author_name = get_field('author_name', $page_id);
-$author_position = get_field('author_position', $page_id);
+$author_name = get_field("author_name", $page_id);
+$author_position = get_field("author_position", $page_id);
 
 ?>
 
