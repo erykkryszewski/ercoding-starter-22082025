@@ -14,20 +14,12 @@ $button = get_field('button');
 ?>
 
 
-<div class="cta <?php if ($background == 'true') {
-  echo 'cta--background';
-} ?> <?php if (!is_front_page()) {
-   echo 'cta--subpage';
- } ?>">
+<div class="cta <?php if ($background == 'true') { echo 'cta--background'; } ?> <?php if (!is_front_page()) { echo 'cta--subpage'; } ?>">
   <?php if (!empty($section_id)): ?>
   <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>
   <?php endif; ?>
-  <div class="cta__background <?php if ('true' == $overlay) {
-    echo 'cta__background--overlay';
-  } ?>">
-    <?php if (!empty($background)) {
-      echo wp_get_attachment_image($background, 'full', '', ['class' => 'object-fit-cover']);
-    } ?>
+  <div class="cta__background <?php if ('true' == $overlay) { echo 'cta__background--overlay'; } ?>">
+    <?php if (!empty($background)) { echo wp_get_attachment_image($background, 'full', '', ['class' => 'object-fit-cover']); } ?>
   </div>
   <div class="container">
     <div class="cta__wrapper">

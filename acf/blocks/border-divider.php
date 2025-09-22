@@ -14,6 +14,7 @@ $section_id = get_field("section_id");
 
 $direction = get_field("direction");
 ?>
+
 <div class="container">
   <div class="border-divider"></div>
 </div>
