@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".ercodingtheme-phone-number").forEach(function (ercodingEl) {
     let ercodingPhoneText = ercodingEl.textContent.replace(/\D+/g, "");
-    
+
     if (ercodingPhoneText.startsWith("48") && ercodingPhoneText.length === 11) {
       ercodingPhoneText = `+${ercodingPhoneText}`;
     } else if (!ercodingPhoneText.startsWith("+48") && ercodingPhoneText.length === 9) {

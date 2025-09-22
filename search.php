@@ -38,10 +38,7 @@ $blog_hero_image = get_field("blog_hero_image", "options");
                       <span class="news__time">
                         <time><?php the_time('F j, Y'); ?></time>
                       </span>
-                      <p>
-                        <?php echo substr(get_the_excerpt(), 0, 300); ?>
-                        ...
-                      </p>
+                      <p><?php echo substr(get_the_excerpt(), 0, 300); ?> ...</p>
                     </div>
                     <a href="<?php the_permalink(); ?>" class="button button--light news__button"><?php _e('Read more', 'ercodingtheme'); ?></a>
                   </div>
@@ -59,8 +56,7 @@ $blog_hero_image = get_field("blog_hero_image", "options");
         </div>
       </div>
       <div class="pagination mt-5">
-        <?php echo paginate_links(array( 'base' => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))), 'current' => max(1, get_query_var('paged')), 'format' => '?paged=%#%', 'show_all' => false, 'type' => 'list', 'end_size'
-        => 2, 'mid_size' => 1, 'prev_next' => true, 'prev_text' => '', 'next_text' => '', 'add_args' => false, 'add_fragment' => '', )); ?>
+        <?php echo paginate_links(array('base' => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))), 'current' => max(1, get_query_var('paged')), 'format' => '?paged=%#%', 'show_all' => false, 'type' => 'list', 'end_size' => 2, 'mid_size' => 1, 'prev_next' => true, 'prev_text' => '', 'next_text' => '', 'add_args' => false, 'add_fragment' => '',)); ?>
       </div>
       <?php wp_reset_postdata(); ?> <?php wp_reset_query(); ?>
     </div>

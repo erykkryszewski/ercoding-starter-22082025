@@ -16,5 +16,5 @@ $direction = get_field("direction");
 ?>
 
 <div class="container">
-  <div class="border-divider"></div>
+    <div class="border-divider"></div>
 </div>

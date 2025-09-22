@@ -56,11 +56,7 @@ $query = new WP_Query($args);
               <div class="theme-blog__content theme-blog__content--courses">
                 <div>
                   <a href="<?php the_permalink(); ?>" class="theme-blog__title"><?php the_title(); ?></a>
-                  <?php $excerpt = get_the_excerpt(); $content = get_the_content(); if (!empty($excerpt)) { echo '
-                  <p>' . mb_substr($excerpt, 0, 150) . (mb_strlen($excerpt) > 150 ? '...' : '') . '</p>
-                  '; } elseif (empty($excerpt) && !empty($content)) { $contentText = strip_tags($content); echo '
-                  <p>' . mb_substr($contentText, 0, 150) . (mb_strlen($contentText) > 150 ? '...' : '') . '</p>
-                  '; } ?>
+                  <?php $excerpt = get_the_excerpt(); $content = get_the_content(); if (!empty($excerpt)) { echo ' <p>' . mb_substr($excerpt, 0, 150) . (mb_strlen($excerpt) > 150 ? '...' : '') . '</p> '; } elseif (empty($excerpt) && !empty($content)) { $contentText = strip_tags($content); echo ' <p>' . mb_substr($contentText, 0, 150) . (mb_strlen($contentText) > 150 ? '...' : '') . '</p> '; } ?>
                 </div>
                 <a href="<?php the_permalink(); ?>" class="theme-blog__button button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
               </div>
@@ -70,8 +66,7 @@ $query = new WP_Query($args);
         </div>
       </div>
       <div class="pagination mt-5">
-        <?php echo paginate_links(array( 'base' => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))), 'current' => max(1, get_query_var('paged')), 'format' => '?paged=%#%', 'total' => $query->max_num_pages, // Use
-        max_num_pages from the custom query 'show_all' => false, 'type' => 'list', 'end_size' => 2, 'mid_size' => 1, 'prev_next' => true, 'prev_text' => '', 'next_text' => '', 'add_args' => false, 'add_fragment' => '', )); ?>
+        <?php echo paginate_links(array('base' => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))), 'current' => max(1, get_query_var('paged')), 'format' => '?paged=%#%', 'total' => $query->max_num_pages, 'show_all' => false, 'type' => 'list', 'end_size' => 2, 'mid_size' => 1, 'prev_next' => true, 'prev_text' => '', 'next_text' => '', 'add_args' => false, 'add_fragment' => '',)); ?>
       </div>
       <?php wp_reset_postdata(); ?>
     </div>

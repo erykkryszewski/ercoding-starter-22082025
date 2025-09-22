@@ -23,8 +23,7 @@ $args = [
 $posts = new WP_Query($args);
 ?>
 
-<?php if ($posts->
-have_posts()) : ?>
+<?php if ($posts->have_posts()) : ?>
 <div class="theme-blog <?php if ($background == 'true') { echo 'theme-blog--background'; } ?>">
   <?php if (!empty($section_id)): ?>
   <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>

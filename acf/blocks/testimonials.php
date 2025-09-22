@@ -36,8 +36,7 @@ $image_type = get_field("image_type");
           <div class="testimonials__content">
             <?php if (!empty($item['image'])): ?>
             <div class="testimonials__image <?php if ($image_type == 'square') { echo 'testimonials__image--square'; } ?>">
-              <?php $file = get_attached_file($item['image'], 'large'); $image_class = image_object_fit($file); ?> <?php echo wp_get_attachment_image($item['image'], 'large', '', [ 'class' =>
-              $image_class, ]); ?>
+              <?php $file = get_attached_file($item['image'], 'large'); $image_class = image_object_fit($file); ?> <?php echo wp_get_attachment_image($item['image'], 'large', '', [ 'class' => $image_class, ]); ?>
               <div class="testimonials__image-decorator <?php if ($image_type == 'square') { echo 'testimonials__image-decorator--square';} ?>"></div>
             </div>
             <?php endif; ?>
