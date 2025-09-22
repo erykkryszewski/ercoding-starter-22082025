@@ -37,8 +37,8 @@ $footer_third_column_content = get_field('footer_third_column_content', 'options
 			<p>Jeżeli zastanawiałeś się nad zakupami w naszym sklepie, to ciężko o lepszy moment! <span>Poniżej Twój kod na 10% rabatu!</span></p>
 			<h3 class="popup__code">TEST</h3>
 			<button class="popup__copy button">Skopiuj kod</button>
-		</div>
-	</div>
+		 </div>
+	</div> 
 </div>
 
 <footer class="footer <?php if(is_front_page()) { echo 'footer--homepage'; } ?>">

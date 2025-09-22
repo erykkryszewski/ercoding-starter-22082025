@@ -1,24 +1,30 @@
 <?php
-$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-$section_id = get_field('section_id');
-$background = get_field('background');
-$program = get_field('program');
+$url = "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+$section_id = get_field("section_id");
+$background = get_field("background");
+$program = get_field("program");
 ?>
 
 <?php if (!empty($program)): ?>
-<div class="program <?php if ($background == 'true') {
+<div
+  class="program <?php if ($background == 'true') {
   echo 'program--background';
-} ?>">
+} ?>"
+>
   <?php if (!empty($section_id)): ?>
   <div class="section-id" id="<?php echo esc_html($section_id); ?>"></div>
   <?php endif; ?>
   <div class="container">
     <div class="program__nav">
       <?php foreach ($program as $key => $item): ?>
-      <button class="button program__button <?php if ($key == 0) {
+      <button
+        class="button program__button <?php if ($key == 0) {
         echo 'active';
       } ?>"
-        data-id="<?php echo esc_html($item['day_id']); ?>"><?php echo esc_html($item['day']); ?></button>
+        data-id="<?php echo esc_html($item['day_id']); ?>"
+      >
+        <?php echo esc_html($item['day']); ?>
+      </button>
       <?php endforeach; ?>
     </div>
     <div class="program__wrapper">

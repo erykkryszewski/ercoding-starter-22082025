@@ -8,7 +8,7 @@ if (is_woocommerce_activated()) {
 $global_phone_number = get_field('global_phone_number', 'options');
 $global_logo = get_field('global_logo', 'options');
 $theme_sign = get_field('theme_sign', 'options');
-$global_email = get_field('global_email', 'options');
+ $global_email = get_field('global_email', 'options');
 $global_terms_and_conditions = get_field('global_terms_and_conditions', 'options');
 $global_privacy_policy = get_field('global_privacy_policy', 'options');
 $global_social_media = get_field('global_social_media', 'options');
@@ -34,7 +34,7 @@ $body_classes = get_body_class();
 <body <?php if (!is_front_page()) {
   body_class('theme-subpage');
 } else {
-  body_class('theme-frontpage');
+   body_class('theme-frontpage');
 } ?>>
   <div class="preloader">
     <div class="preloader__logo">
@@ -45,9 +45,7 @@ $body_classes = get_body_class();
       } ?>
     </div>
   </div>
-  <header class="header <?php if (!is_front_page()) {
-    echo 'header--subpage';
-  } ?>">
+  <header class="header <?php if (!is_front_page()) { echo 'header--subpage'; } ?>">
     <div class="top-bar">
       <div class="container">
         <div class="top-bar__wrapper">

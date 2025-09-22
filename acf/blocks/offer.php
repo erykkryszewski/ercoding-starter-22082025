@@ -1,7 +1,12 @@
-<?php $url = "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+<?php
+
+$url = "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
 $section_id = get_field("section_id");
 $background = get_field("background");
-$offer = get_field("offer"); ?>
+$offer = get_field("offer");
+
+?>
+
 <?php if(!empty($offer)):?>
 <section class="offer <?php if($background=='true'){echo 'offer--background';}?>">
   <?php if(!empty($section_id)):?>
@@ -15,7 +20,10 @@ $offer = get_field("offer"); ?>
           <?php if(!empty($item['button'])):?>
           <a href="<?php echo esc_url($item['button']['url']);?>" class="cover"></a>
           <?php endif;?> <?php if(!empty($item['image'])):?>
-          <div class="offer__image"><?php echo wp_get_attachment_image($item['image'],'large',false,['class'=> 'object-fit-cover']);?></div>
+          <div class="offer__image">
+            <?php echo wp_get_attachment_image($item['image'],'large',false,['class'=>
+            'object-fit-cover']);?>
+          </div>
           <?php endif;?>
           <h3 class="offer__title"><?php echo apply_filters('the_title',$item['title']);?></h3>
           <p><?php echo apply_filters('the_title',$item['text']);?></p>

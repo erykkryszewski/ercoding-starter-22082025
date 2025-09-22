@@ -1,17 +1,9 @@
 #!/usr/bin/env node
-/**
- * WP template PHP formatter:
- * - If the file starts with a PHP block, format that block with Prettier's PHP parser.
- * - Format the remaining content as HTML with embedded formatting DISABLED
- *   so inline PHP one-liners in attributes stay on one line.
- *
- * Usage: node js/tools/wp-format-template-php.js path/to/file.php
- */
 const fs = require("fs");
 const path = require("path");
 
 async function loadPrettier() {
-  // Prettier 3 is ESM; use dynamic import from CJS
+  // Prettier 3 is ESM; dynamic import from CJS
   // eslint-disable-next-line no-eval
   return (await eval("import('prettier')")).default;
 }
@@ -23,25 +15,22 @@ async function loadPrettier() {
     process.exit(2);
   }
   const abs = path.resolve(file);
-  let src = fs.readFileSync(abs, "utf8");
+  const raw = fs.readFileSync(abs, "utf8");
 
   const prettier = await loadPrettier();
+  const normalize = (s) => s.replace(/\r\n?/g, "\n");
 
-  // Detect a leading PHP block (preamble) ONLY at the very top
-  // e.g. "<?php ... ?>" possibly followed by whitespace/newlines before HTML.
   let preamble = "";
-  let body = src;
+  let body = raw;
 
-  if (src.startsWith("<?php")) {
-    const end = src.indexOf("?>");
+  // Detect a single *leading* PHP block and split
+  if (raw.startsWith("<?php")) {
+    const end = raw.indexOf("?>");
     if (end !== -1) {
-      preamble = src.slice(0, end + 2); // include "?>"
-      body = src.slice(end + 2); // remainder (HTML+inline PHP)
+      preamble = raw.slice(0, end + 2);
+      body = raw.slice(end + 2);
     }
   }
-
-  // Normalize line endings to \n
-  const normalize = (s) => s.replace(/\r\n?/g, "\n");
 
   let out = "";
 
@@ -52,22 +41,24 @@ async function loadPrettier() {
       printWidth: 100,
       tabWidth: 2,
     });
-    out += fmtPhp.trimEnd() + "\n";
+
+    // CHANGE: ensure exactly ONE empty line after the preamble
+    out += fmtPhp.trimEnd() + "\n\n"; // <-- one blank line gap (your “margin-bottom”)
   }
 
   if (body) {
-    const fmtHtml = await prettier.format(normalize(body), {
+    // NEW: trim leading whitespace so the gap above is clean & stable
+    const bodyClean = normalize(body).replace(/^\s+/, "");
+
+    const fmtHtml = await prettier.format(bodyClean, {
       parser: "html",
-      // keep inline PHP intact; do not reformat embedded code
       embeddedLanguageFormatting: "off",
       htmlWhitespaceSensitivity: "ignore",
-      // make attribute lines MUCH less likely to wrap
-      printWidth: 200,
+      printWidth: 200, // keeps <a ...> on one line unless truly huge
       tabWidth: 2,
     });
-    // If we had a preamble, ensure a single blank line before HTML when appropriate
-    if (preamble && !/^\s*</.test(fmtHtml)) out += "\n";
-    out += fmtHtml.trimStart();
+
+    out += fmtHtml;
   }
 
   fs.writeFileSync(abs, out, "utf8");
