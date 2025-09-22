@@ -62,26 +62,56 @@ function pruneDir(dir, keepSet, exts, aliasMap) {
 
 function replaceBetweenMarkers(src, startMarker, endMarker, newLines) {
     const start = src.indexOf(startMarker);
-    const end = src.indexOf(endMarker);
-    if (start !== -1 && end !== -1 && end > start) {
-        const before = src.slice(0, start + startMarker.length);
-        const after = src.slice(end);
-        return before + "\n" + newLines.join("\n") + "\n" + after;
-    }
-    return null;
+    if (start === -1) return null;
+    const end = src.indexOf(endMarker, start + startMarker.length);
+    if (end === -1) return null;
+    const before = src.slice(0, start + startMarker.length);
+    const after = src.slice(end);
+    return `${before}\n${newLines.join("\n")}\n${after}`;
 }
 
 function rewriteStyleScss(stylePath, scssBlocksDir, keep, scssAliases, removeWoo) {
     if (!fs.existsSync(stylePath)) return false;
+
     let txt = fs.readFileSync(stylePath, "utf8");
-    if (removeWoo) txt = txt.replace(/^\s*@import\s+["']scss\/woocommerce\/[^"']+["'];\s*$/gm, "");
-    const imports = keep.map((k) => `@import 'scss/blocks/${mapSlug(k, scssAliases)}';`);
-    const repl = replaceBetweenMarkers(txt, "/* @blocks:start */", "/* @blocks:end */", imports);
-    if (repl !== null) {
-        writeFile(stylePath, repl + "\n");
+
+    // Detect preferred style: url(...) vs plain
+    const usesUrlStyle = /@import\s+url\(/i.test(txt);
+
+    // Helper to build an @import consistent with the file
+    const makeImport = (rel) => (usesUrlStyle ? `@import url("${rel}");` : `@import '${rel}';`);
+
+    // Remove Woo imports if feature disabled (match both styles)
+    if (removeWoo) {
+        const wooRe =
+            /^\s*@import\s+(?:url\((?:'|")?)?scss\/woocommerce\/[^'")]+(?:'|")?\)?\s*;\s*$/gim;
+        txt = txt.replace(wooRe, "");
+    }
+
+    // Build block imports in consistent style
+    const imports = keep.map((k) => makeImport(`scss/blocks/${mapSlug(k, scssAliases)}`));
+
+    // If markers exist, replace between them
+    const replaced = replaceBetweenMarkers(
+        txt,
+        "/* @blocks:start */",
+        "/* @blocks:end */",
+        imports
+    );
+    if (replaced !== null) {
+        writeFile(stylePath, replaced + "\n");
         return true;
     }
-    txt = txt.replace(/^\s*\/{0,2}\s*@import\s+['"]scss\/blocks\/[^'"]+['"];\s*$/gm, "");
+
+    // No markers: remove any existing block imports (both styles, commented or not), then append
+    //  - Matches: @import 'scss/blocks/...';
+    //             @import url("scss/blocks/...");
+    //             (tolerates //-commented lines too)
+    const blocksLineRe =
+        /^\s*(?:\/\/\s*)?@import\s+(?:url\((?:'|")?)?scss\/blocks\/[^'")]+(?:'|")?\)?\s*;\s*$/gim;
+    txt = txt.replace(blocksLineRe, "");
+
+    // Append the new list at the end (or you can choose to inject after last import if you prefer)
     txt += imports.length ? "\n" + imports.join("\n") + "\n" : "\n";
     writeFile(stylePath, txt);
     return true;
