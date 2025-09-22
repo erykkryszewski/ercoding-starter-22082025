@@ -32,12 +32,7 @@ $global_opening_hours = get_field("global_opening_hours", "options");
                     <?php endif; ?> <?php if (!empty($global_email)): ?>
                     <a class="contact__email" href="mailto:<?php echo esc_html($global_email); ?>">Mail: <?php echo esc_html($global_email); ?></a>
                     <?php endif; ?>
-                    <!-- <?php if (!empty($global_opening_hours)): ?>
-              <h4 class="contact__subtitle"><?php esc_html_e('Godziny otwarcia:', 'ercodingtheme'); ?></h4>
-              <div class="opening-hours contact__opening-hours">
-                <?php echo apply_filters('acf_the_content', $global_opening_hours); ?>
-              </div>
-            <?php endif; ?> -->
+
                     <h4 class="contact__subtitle"><?php esc_html_e('Obserwuj nas:', 'ercodingtheme'); ?></h4>
                     <?php if (!empty($global_social_media)): ?>
                     <div class="social-media contact__social-media">
