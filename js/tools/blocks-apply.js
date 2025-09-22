@@ -1,16 +1,16 @@
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
 
 function readJson(p) {
-  return JSON.parse(fs.readFileSync(p, 'utf8'));
+  return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 function listFiles(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter((f) => fs.statSync(path.join(dir, f)).isFile());
 }
 function baseNoExt(f) {
-  return f.replace(/\.[^.]+$/, '');
+  return f.replace(/\.[^.]+$/, "");
 }
 function ensureDir(p) {
   fs.mkdirSync(path.dirname(p), { recursive: true });
@@ -36,7 +36,7 @@ function studly(s) {
     .split(/[^a-z0-9]+/i)
     .filter(Boolean)
     .map((w) => w[0].toUpperCase() + w.slice(1))
-    .join(' ');
+    .join(" ");
 }
 
 function pruneDir(dir, keepSet, exts, aliasMap) {
@@ -46,7 +46,7 @@ function pruneDir(dir, keepSet, exts, aliasMap) {
   files.forEach((f) => {
     const ext = path.extname(f).toLowerCase();
     if (!exts.includes(ext)) return;
-    const raw = baseNoExt(f).replace(/^_/, '');
+    const raw = baseNoExt(f).replace(/^_/, "");
     let keep = false;
     keepSet.forEach((k) => {
       const mapped = mapSlug(k, aliasMap);
@@ -66,44 +66,45 @@ function replaceBetweenMarkers(src, startMarker, endMarker, newLines) {
   if (start !== -1 && end !== -1 && end > start) {
     const before = src.slice(0, start + startMarker.length);
     const after = src.slice(end);
-    return before + '\n' + newLines.join('\n') + '\n' + after;
+    return before + "\n" + newLines.join("\n") + "\n" + after;
   }
   return null;
 }
 
 function rewriteStyleScss(stylePath, scssBlocksDir, keep, scssAliases, removeWoo) {
   if (!fs.existsSync(stylePath)) return false;
-  let txt = fs.readFileSync(stylePath, 'utf8');
-  if (removeWoo) txt = txt.replace(/^\s*@import\s+["']scss\/woocommerce\/[^"']+["'];\s*$/gm, '');
+  let txt = fs.readFileSync(stylePath, "utf8");
+  if (removeWoo) txt = txt.replace(/^\s*@import\s+["']scss\/woocommerce\/[^"']+["'];\s*$/gm, "");
   const imports = keep.map((k) => `@import 'scss/blocks/${mapSlug(k, scssAliases)}';`);
-  const repl = replaceBetweenMarkers(txt, '/* @blocks:start */', '/* @blocks:end */', imports);
+  const repl = replaceBetweenMarkers(txt, "/* @blocks:start */", "/* @blocks:end */", imports);
   if (repl !== null) {
-    writeFile(stylePath, repl + '\n');
+    writeFile(stylePath, repl + "\n");
     return true;
   }
-  txt = txt.replace(/^\s*\/{0,2}\s*@import\s+['"]scss\/blocks\/[^'"]+['"];\s*$/gm, '');
-  txt += imports.length ? '\n' + imports.join('\n') + '\n' : '\n';
+  txt = txt.replace(/^\s*\/{0,2}\s*@import\s+['"]scss\/blocks\/[^'"]+['"];\s*$/gm, "");
+  txt += imports.length ? "\n" + imports.join("\n") + "\n" : "\n";
   writeFile(stylePath, txt);
   return true;
 }
 
 function rewriteJsIndex(jsIndexPath, jsBlocksDir, keep, enableWoo, jsAliases) {
   if (!fs.existsSync(jsIndexPath)) return false;
-  let txt = fs.readFileSync(jsIndexPath, 'utf8');
-  if (!enableWoo) txt = txt.replace(/^\s*\/{0,2}\s*import\s+['"]\.\/woocommerce\/[^'"]+['"];\s*$/gm, '');
+  let txt = fs.readFileSync(jsIndexPath, "utf8");
+  if (!enableWoo)
+    txt = txt.replace(/^\s*\/{0,2}\s*import\s+['"]\.\/woocommerce\/[^'"]+['"];\s*$/gm, "");
   const imports = keep
     .map((k) => {
       const slug = mapSlug(k, jsAliases);
       const f = path.join(jsBlocksDir, `${slug}.js`);
-      return fs.existsSync(f) ? `import './blocks/${slug}';` : '';
+      return fs.existsSync(f) ? `import './blocks/${slug}';` : "";
     })
     .filter(Boolean);
-  const repl = replaceBetweenMarkers(txt, '/* @blocks:start */', '/* @blocks:end */', imports);
+  const repl = replaceBetweenMarkers(txt, "/* @blocks:start */", "/* @blocks:end */", imports);
   if (repl !== null) {
-    writeFile(jsIndexPath, repl + '\n');
+    writeFile(jsIndexPath, repl + "\n");
     return true;
   }
-  txt = txt.replace(/^\s*\/{0,2}\s*import\s+['"]\.\/blocks\/[^'"]+['"];\s*$/gm, '');
+  txt = txt.replace(/^\s*\/{0,2}\s*import\s+['"]\.\/blocks\/[^'"]+['"];\s*$/gm, "");
   const lastImport = (() => {
     const lines = txt.split(/\r?\n/);
     let idx = -1;
@@ -115,22 +116,22 @@ function rewriteJsIndex(jsIndexPath, jsBlocksDir, keep, enableWoo, jsAliases) {
   if (lastImport >= 0) {
     const lines = txt.split(/\r?\n/);
     lines.splice(lastImport + 1, 0, ...imports);
-    writeFile(jsIndexPath, lines.join('\n') + '\n');
+    writeFile(jsIndexPath, lines.join("\n") + "\n");
     return true;
   }
-  txt = (imports.length ? imports.join('\n') + '\n' : '') + txt;
+  txt = (imports.length ? imports.join("\n") + "\n" : "") + txt;
   writeFile(jsIndexPath, txt);
   return true;
 }
 
 function slugifyAcfBlockTitle(s) {
-  return String(s || '')
-    .replace(/^block:\s*/i, '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+  return String(s || "")
+    .replace(/^block:\s*/i, "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 function allowedAcfSets(keep, acfAliases) {
@@ -139,7 +140,7 @@ function allowedAcfSets(keep, acfAliases) {
   keep.forEach((k) => {
     const a = acfAliases && acfAliases[k] ? acfAliases[k] : k;
     slugs.add(a);
-    full.add('acf/' + a);
+    full.add("acf/" + a);
   });
   return { slugs, full };
 }
@@ -205,45 +206,45 @@ function scaffoldJsBlock(dir, slug) {
 }
 
 function hashKey(s) {
-  return crypto.createHash('md5').update(String(s)).digest('hex').slice(0, 12);
+  return crypto.createHash("md5").update(String(s)).digest("hex").slice(0, 12);
 }
 function groupFilenameFor(slug) {
-  return `group_${hashKey('acf/' + slug)}.json`;
+  return `group_${hashKey("acf/" + slug)}.json`;
 }
 
 function ensureAcfJson(localDir, slug) {
-  const want = 'acf/' + slug;
+  const want = "acf/" + slug;
   if (!fs.existsSync(localDir)) fs.mkdirSync(localDir, { recursive: true });
-  const files = listFiles(localDir).filter((f) => f.endsWith('.json'));
+  const files = listFiles(localDir).filter((f) => f.endsWith(".json"));
   for (const f of files) {
     try {
-      const data = JSON.parse(fs.readFileSync(path.join(localDir, f), 'utf8'));
+      const data = JSON.parse(fs.readFileSync(path.join(localDir, f), "utf8"));
       const loc = data && data.location ? data.location : [];
       let match = false;
       loc.forEach((andG) => {
         (andG || []).forEach((rule) => {
-          if (rule && rule.param === 'block' && rule.value === want) match = true;
+          if (rule && rule.param === "block" && rule.value === want) match = true;
         });
       });
       if (match) return;
     } catch (e) {}
   }
-  const file = path.join(localDir, `group_${hashKey('acf/' + slug)}.json`);
+  const file = path.join(localDir, `group_${hashKey("acf/" + slug)}.json`);
   if (fs.existsSync(file)) return;
-  const title = 'Block: ' + studly(slug);
+  const title = "Block: " + studly(slug);
   const group = {
-    key: 'group_' + hashKey('key:' + slug),
+    key: "group_" + hashKey("key:" + slug),
     title: title,
     fields: [],
-    location: [[{ param: 'block', operator: '==', value: want }]],
+    location: [[{ param: "block", operator: "==", value: want }]],
     active: 1,
-    description: '',
+    description: "",
     menu_order: 0,
-    position: 'normal',
-    style: 'default',
-    label_placement: 'top',
-    instruction_placement: 'label',
-    hide_on_screen: '',
+    position: "normal",
+    style: "default",
+    label_placement: "top",
+    instruction_placement: "label",
+    hide_on_screen: "",
     show_in_rest: 0,
     modified: Math.floor(Date.now() / 1000),
   };
@@ -254,17 +255,17 @@ function pruneAcfLocalJson(localDir, keep, acfAliases) {
   const removed = [];
   if (!fs.existsSync(localDir)) return removed;
   const { slugs, full } = allowedAcfSets(keep, acfAliases);
-  const files = listFiles(localDir).filter((f) => f.endsWith('.json'));
+  const files = listFiles(localDir).filter((f) => f.endsWith(".json"));
   files.forEach((f) => {
     const fullPath = path.join(localDir, f);
     let data = null;
     try {
-      data = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
+      data = JSON.parse(fs.readFileSync(fullPath, "utf8"));
     } catch (e) {
       data = null;
     }
     if (!data) return;
-    const title = String(data.title || data.label || '').trim();
+    const title = String(data.title || data.label || "").trim();
     const isTitleBlock = /^block:\s*/i.test(title);
     const isTitleKeep = /^(theme settings|component|global)/i.test(title);
     const loc = data.location;
@@ -274,11 +275,11 @@ function pruneAcfLocalJson(localDir, keep, acfAliases) {
     if (Array.isArray(loc)) {
       loc.forEach((andG) => {
         (andG || []).forEach((rule) => {
-          if (rule && rule.param === 'block') {
-            const v = String(rule.value || '').toLowerCase();
-            if (v === 'all' || v === 'acf/all' || v === '*') keepByRule = true;
-            if (v.startsWith('acf/') && v !== 'acf/all') hasTargeted = true;
-            if (full.has(v) || slugs.has(v.replace(/^acf\//, ''))) matches = true;
+          if (rule && rule.param === "block") {
+            const v = String(rule.value || "").toLowerCase();
+            if (v === "all" || v === "acf/all" || v === "*") keepByRule = true;
+            if (v.startsWith("acf/") && v !== "acf/all") hasTargeted = true;
+            if (full.has(v) || slugs.has(v.replace(/^acf\//, ""))) matches = true;
           }
         });
       });
@@ -295,8 +296,8 @@ function pruneAcfLocalJson(localDir, keep, acfAliases) {
 
 function filterBlocksPhp(blocksPhpPath, keep) {
   if (!fs.existsSync(blocksPhpPath)) return false;
-  const txt = fs.readFileSync(blocksPhpPath, 'utf8');
-  const body = txt.replace(/^<\?php\s*/, '').trim();
+  const txt = fs.readFileSync(blocksPhpPath, "utf8");
+  const body = txt.replace(/^<\?php\s*/, "").trim();
   const items = {};
   const re = /'([a-z0-9\-\_]+)'\s*=>\s*\[/gi;
   let m;
@@ -307,29 +308,29 @@ function filterBlocksPhp(blocksPhpPath, keep) {
       depth = 1;
     while (i < body.length && depth > 0) {
       const ch = body[i++];
-      if (ch === '[') depth++;
-      else if (ch === ']') depth--;
+      if (ch === "[") depth++;
+      else if (ch === "]") depth--;
     }
     const end = i;
-    items[slug] = body.slice(start, end) + ',';
+    items[slug] = body.slice(start, end) + ",";
   }
   const parts = [];
   keep.forEach((slug) => {
     if (items[slug]) parts.push(items[slug]);
     else {
-      const title = slug.replace(/[\-\_]+/g, ' ').replace(/\b\w/g, (s) => s.toUpperCase());
+      const title = slug.replace(/[\-\_]+/g, " ").replace(/\b\w/g, (s) => s.toUpperCase());
       parts.push(
-        `'${slug}' => [ 'title' => __('${title}', 'ercodingtheme'), 'category' => 'ercodingtheme', 'align' => 'full' ],`,
+        `'${slug}' => [ 'title' => __('${title}', 'ercodingtheme'), 'category' => 'ercodingtheme', 'align' => 'full' ],`
       );
     }
   });
-  const out = '<?php\nreturn [\n\t' + parts.join('\n\t') + '\n];\n';
+  const out = "<?php\nreturn [\n\t" + parts.join("\n\t") + "\n];\n";
   writeFile(blocksPhpPath, out);
   return true;
 }
 
 function run() {
-  const cfg = readJson(path.resolve('blocks.use.json'));
+  const cfg = readJson(path.resolve("blocks.use.json"));
   const keep = uniq(cfg.keep.map(String));
   const keepSet = new Set(keep);
   const scssAliases = cfg.aliases && cfg.aliases.scss ? cfg.aliases.scss : {};
@@ -337,16 +338,16 @@ function run() {
   const acfAliases = cfg.aliases && cfg.aliases.acf ? cfg.aliases.acf : {};
   const removeWoo = cfg.features && cfg.features.woocommerce === false;
   const paths = {
-    styleScss: path.resolve('style.scss'),
-    phpBlocks: path.resolve('acf/blocks'),
-    phpBlocksList: path.resolve('acf/blocks.php'),
-    scssBlocks: path.resolve('scss/blocks'),
-    jsIndex: path.resolve('js/src/index.js'),
-    jsBlocks: path.resolve('js/src/blocks'),
-    scssWoo: path.resolve('scss/woocommerce'),
-    jsWoo: path.resolve('js/src/woocommerce'),
-    acfLocal: path.resolve('acf/local-json'),
-    blocksDir: path.resolve('blocks'),
+    styleScss: path.resolve("style.scss"),
+    phpBlocks: path.resolve("acf/blocks"),
+    phpBlocksList: path.resolve("acf/blocks.php"),
+    scssBlocks: path.resolve("scss/blocks"),
+    jsIndex: path.resolve("js/src/index.js"),
+    jsBlocks: path.resolve("js/src/blocks"),
+    scssWoo: path.resolve("scss/woocommerce"),
+    jsWoo: path.resolve("js/src/woocommerce"),
+    acfLocal: path.resolve("acf/local-json"),
+    blocksDir: path.resolve("blocks"),
   };
 
   keep.forEach((slug) => {
@@ -358,9 +359,9 @@ function run() {
   });
 
   const removed = {
-    php: pruneDir(paths.phpBlocks, keepSet, ['.php']),
-    scss: pruneDir(paths.scssBlocks, keepSet, ['.scss'], scssAliases),
-    js: pruneDir(paths.jsBlocks, keepSet, ['.js', '.mjs', '.ts'], jsAliases),
+    php: pruneDir(paths.phpBlocks, keepSet, [".php"]),
+    scss: pruneDir(paths.scssBlocks, keepSet, [".scss"], scssAliases),
+    js: pruneDir(paths.jsBlocks, keepSet, [".js", ".mjs", ".ts"], jsAliases),
     acfJson: pruneAcfLocalJson(paths.acfLocal, keep, acfAliases),
   };
   rewriteStyleScss(paths.styleScss, paths.scssBlocks, keep, scssAliases, removeWoo);
@@ -370,7 +371,7 @@ function run() {
     removeTree(paths.jsWoo);
   }
   filterBlocksPhp(paths.phpBlocksList, keep);
-  process.stdout.write(JSON.stringify({ kept: keep, removed }, null, 2) + '\n');
+  process.stdout.write(JSON.stringify({ kept: keep, removed }, null, 2) + "\n");
 }
 
 run();

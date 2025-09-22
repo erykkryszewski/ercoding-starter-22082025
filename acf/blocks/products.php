@@ -24,7 +24,10 @@ have_posts() && is_woocommerce_activated()): ?>
         <?php while ($loop->have_posts()): ?> <?php $loop->the_post(); $product_id = get_the_ID(); set_query_var('product_id', $product_id); ?>
         <li class="popular-products__item product">
           <a href="<?php echo get_the_permalink($product_id); ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
-            <div class="product__image"><?php echo wp_get_attachment_image(get_post_thumbnail_id($product_id), 'full', '', [ 'class' => 'object-fit-contain', ]); ?></div>
+            <div class="product__image">
+              <?php echo wp_get_attachment_image(get_post_thumbnail_id($product_id), 'full', '', [ 'class' =>
+              'object-fit-contain', ]); ?>
+            </div>
             <h2 class="woocommerce-loop-product__title"><?php echo get_the_title($product_id); ?></h2>
             <?php woocommerce_template_single_price(); ?>
           </a>

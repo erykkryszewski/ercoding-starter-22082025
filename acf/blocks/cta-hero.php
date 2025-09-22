@@ -45,11 +45,8 @@ $hero_cta_button = get_field("hero_cta_button");
                 <h1 class="cta-hero__title"><?php echo apply_filters('the_title', $item['title']); ?></h1>
                 <?php else: ?>
                 <h2 class="cta-hero__title"><?php echo apply_filters('the_title', $item['title']); ?></h2>
-                <?php endif; ?> <?php endif; ?> <?php if (!empty($item['text'])): ?> <?php echo apply_filters('acf_the_content', str_replace('&nbsp;', ' ', $item['text'])); ?> <?php endif; ?> <?php if
-                (!empty($item['button'])): ?>
-                <a href="<?php echo esc_html($item['button']['url']); ?>" class="button cta-hero__button" target="<?php echo esc_html($item['button']['target']); ?>">
-                  <?php echo esc_html( $item['button']['title'], ); ?>
-                </a>
+                <?php endif; ?> <?php endif; ?> <?php if (!empty($item['text'])): ?> <?php echo apply_filters('acf_the_content', str_replace('&nbsp;', ' ', $item['text'])); ?> <?php endif; ?> <?php if (!empty($item['button'])): ?>
+                <a href="<?php echo esc_html($item['button']['url']); ?>" class="button cta-hero__button" target="<?php echo esc_html($item['button']['target']); ?>"><?php echo esc_html( $item['button']['title'], ); ?></a>
                 <?php endif; ?>
               </div>
             </div>

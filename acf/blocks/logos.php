@@ -18,10 +18,7 @@ $data_speed = get_field("speed");
       <div class="logos__viewport">
         <div class="logos__items" data-speed="<?php if (!empty($data_speed)) { echo esc_html($data_speed); } else { echo '100'; } ?>">
           <?php $shuffled_1 = $logos; shuffle($shuffled_1); ?> <?php foreach ($shuffled_1 as $item): ?> <?php if (!empty($item['image'])): ?>
-          <div class="logos__image">
-            <?php echo wp_get_attachment_image($item['image'], 'full', '', [ 'loading' =>
-            'eager', 'decoding' => 'async', ]); ?>
-          </div>
+          <div class="logos__image"><?php echo wp_get_attachment_image($item['image'], 'full', '', [ 'loading' => 'eager', 'decoding' => 'async', ]); ?></div>
           <?php endif; ?> <?php endforeach; ?>
         </div>
       </div>

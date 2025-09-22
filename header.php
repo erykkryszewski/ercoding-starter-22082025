@@ -38,11 +38,7 @@ $body_classes = get_body_class();
 } ?>>
   <div class="preloader">
     <div class="preloader__logo">
-      <?php if (!empty($theme_sign)) {
-        echo wp_get_attachment_image($theme_sign, 'full', '', ['class' => '']);
-      } else {
-        echo '';
-      } ?>
+      <?php if (!empty($theme_sign)) { echo wp_get_attachment_image($theme_sign, 'full', '', ['class' => '']); } else { echo ''; } ?>
     </div>
   </div>
   <header class="header <?php if (!is_front_page()) { echo 'header--subpage'; } ?>">
@@ -57,15 +53,11 @@ $body_classes = get_body_class();
           </div>
           <?php if (!empty($global_social_media)): ?>
           <div class="top-bar__content top-bar__content--right">
-            <ul class="social-media top-bar__social-media <?php if (!is_front_page()) {
-              echo 'top-bar__social-media--subpage';
-            } ?>">
+            <ul class="social-media top-bar__social-media <?php if (!is_front_page()) { echo 'top-bar__social-media--subpage'; } ?>">
               <?php foreach ($global_social_media as $key => $item): ?>
               <li>
                 <a href="<?php echo esc_url_raw($item['link']); ?>" target="_blank">
-                  <?php if (!empty($item['icon'])) {
-                    echo wp_get_attachment_image($item['icon'], 'large', '', ['class' => '']);
-                  } ?>
+                  <?php if (!empty($item['icon'])) { echo wp_get_attachment_image($item['icon'], 'large', '', ['class' => '']); } ?>
                 </a>
               </li>
               <?php endforeach; ?>
@@ -76,32 +68,18 @@ $body_classes = get_body_class();
       </div>
     </div>
     <div class="container">
-      <nav class="nav <?php if (!is_front_page()) {
-        echo 'nav--subpage';
-      } ?>">
-        <a href="/" class="nav__logo <?php if (!is_front_page()) {
-          echo 'nav__logo--subpage';
-        } ?>">
-          <?php if (!empty($global_logo)) {
-            echo wp_get_attachment_image($global_logo, 'full', '', ['class' => '']);
-          } else {
-            echo 'Logo';
-          } ?>
+      <nav class="nav <?php if (!is_front_page()) { echo 'nav--subpage';} ?>">
+        <a href="/" class="nav__logo <?php if (!is_front_page()) { echo 'nav__logo--subpage'; } ?>">
+          <?php if (!empty($global_logo)) {  echo wp_get_attachment_image($global_logo, 'full', '', ['class' => '']); } else { echo 'Logo'; } ?>
         </a>
-        <div class="nav__content <?php if (!is_front_page()) {
-          echo 'nav__content--subpage';
-        } ?>">
+        <div class="nav__content <?php if (!is_front_page()) { echo 'nav__content--subpage'; } ?>">
           <?php
           $menu_class = is_front_page() ? 'nav__menu' : 'nav__menu nav__menu--subpage';
           echo wp_nav_menu(['theme_location' => 'Navigation', 'container' => 'ul', 'menu_class' => $menu_class]);
           ?>
           <?php if (is_woocommerce_activated()): ?>
-          <div class="nav__shop-elements <?php if (!is_front_page()) {
-            echo 'nav__shop-elements--subpage';
-          } ?>">
-            <a class="nav__cart-icon <?php if (!is_front_page()) {
-              echo 'nav__cart-icon--subpage';
-            } ?>" href="/koszyk">
+          <div class="nav__shop-elements <?php if (!is_front_page()) { echo 'nav__shop-elements--subpage'; } ?>">
+            <a class="nav__cart-icon <?php if (!is_front_page()) {  echo 'nav__cart-icon--subpage'; } ?>" href="/koszyk">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                 <defs>
                   <style>
@@ -122,12 +100,7 @@ $body_classes = get_body_class();
           </div>
           <?php endif; ?>
           <?php if (!empty($header_button)): ?>
-          <a href="<?php echo esc_html($header_button['url']); ?>" class="button nav__button <?php if (
-  !is_front_page()
-) {
-  echo 'nav__button--subpage';
-} ?>" target="<?php echo esc_html($header_button['target']); ?>">
-
+          <a href="<?php echo esc_html($header_button['url']); ?>" class="button nav__button <?php if ( !is_front_page()) { echo 'nav__button--subpage'; } ?>" target="<?php echo esc_html($header_button['target']); ?>">
             <?php if (!empty($header_button_before_icon)): ?>
             <span class="button__icon button__icon--before">
               <?php echo wp_get_attachment_image($header_button_before_icon, 'full', '', [
@@ -145,12 +118,9 @@ $body_classes = get_body_class();
               ]); ?>
             </span>
             <?php endif; ?>
-
           </a>
           <?php endif; ?>
-          <div class="hamburger nav__hamburger <?php if (!is_front_page()) {
-            echo 'nav__hamburger--subpage';
-          } ?>">
+          <div class="hamburger nav__hamburger <?php if (!is_front_page()) { echo 'nav__hamburger--subpage';} ?>">
             <span></span>
             <span></span>
             <span></span>

@@ -2,6 +2,43 @@
 const fs = require("fs");
 const path = require("path");
 
+// ---- helpers ---------------------------------------------------------------
+
+function normalizeLF(s) {
+  return s.replace(/\r\n?/g, "\n");
+}
+
+// Collapse newlines/extra spaces *inside* inline PHP blocks so things like
+// "$posts->\nhave_posts()" -> "$posts->have_posts()"
+function collapseInlinePhpNewlines(html) {
+  return html.replace(/<\?php([\s\S]*?)\?>/g, (m, inner) => {
+    let s = inner;
+    s = s.replace(/-\>\s*\n\s*/g, "->").replace(/::\s*\n\s*/g, "::"); // operator splits
+    s = s.replace(/\s*\n\s*/g, " "); // general newline collapse
+    s = s.replace(/\s{2,}/g, " "); // squeeze spaces
+    return `<?php${s}?>`;
+  });
+}
+
+// If an attribute value contains inline PHP, collapse whitespace/newlines inside it
+function collapseInlinePhpWhitespaceInAttrs(html) {
+  return html.replace(/=(["'])([^"']*<\?php[\s\S]*?\?>[^"']*)\1/g, (m, q, inner) => {
+    const collapsed = inner.replace(/\s*\n\s*/g, " ").replace(/\s{2,}/g, " ");
+    return `=${q}${collapsed}${q}`;
+  });
+}
+
+// Make multi-line attribute lists one line when short enough
+function collapseMultilineAttributes(html, maxLen = 240) {
+  return html.replace(/<([a-zA-Z][\w:-]*)(\s+[^>]*?)>/g, (m, tag, attrs) => {
+    if (!/\n/.test(attrs)) return m;
+    const oneLine = `<${tag}${attrs.replace(/\s*\n\s*/g, " ").replace(/\s{2,}/g, " ")}>`;
+    return oneLine.length <= maxLen ? oneLine : m;
+  });
+}
+
+// ---- main ------------------------------------------------------------------
+
 async function loadPrettier() {
   // Prettier 3 is ESM; dynamic import from CJS
   // eslint-disable-next-line no-eval
@@ -18,12 +55,11 @@ async function loadPrettier() {
   const raw = fs.readFileSync(abs, "utf8");
 
   const prettier = await loadPrettier();
-  const normalize = (s) => s.replace(/\r\n?/g, "\n");
 
   let preamble = "";
   let body = raw;
 
-  // Detect a single *leading* PHP block and split
+  // Split a single *leading* PHP block (variables/config) from the rest (HTML+inline PHP)
   if (raw.startsWith("<?php")) {
     const end = raw.indexOf("?>");
     if (end !== -1) {
@@ -34,27 +70,31 @@ async function loadPrettier() {
 
   let out = "";
 
+  // Format the preamble with PHP parser and add exactly one blank line after it
   if (preamble) {
-    const fmtPhp = await prettier.format(normalize(preamble), {
+    const fmtPhp = await prettier.format(normalizeLF(preamble), {
       parser: "php",
       plugins: [require.resolve("@prettier/plugin-php")],
       printWidth: 100,
       tabWidth: 2,
     });
-
-    // CHANGE: ensure exactly ONE empty line after the preamble
-    out += fmtPhp.trimEnd() + "\n\n"; // <-- one blank line gap (your “margin-bottom”)
+    out += fmtPhp.trimEnd() + "\n\n";
   }
 
   if (body) {
-    // NEW: trim leading whitespace so the gap above is clean & stable
-    const bodyClean = normalize(body).replace(/^\s+/, "");
+    // Trim leading whitespace so the gap after preamble is clean
+    let html = normalizeLF(body).replace(/^\s+/, "");
 
-    const fmtHtml = await prettier.format(bodyClean, {
+    // Pre-fixers to enforce your oneliner style before Prettier runs
+    html = collapseInlinePhpNewlines(html);
+    html = collapseInlinePhpWhitespaceInAttrs(html);
+    html = collapseMultilineAttributes(html, 240); // bump to 10000 if you want truly always-one-line
+
+    const fmtHtml = await prettier.format(html, {
       parser: "html",
-      embeddedLanguageFormatting: "off",
+      embeddedLanguageFormatting: "off", // do not touch inline PHP blocks
       htmlWhitespaceSensitivity: "ignore",
-      printWidth: 200, // keeps <a ...> on one line unless truly huge
+      printWidth: 240,
       tabWidth: 2,
     });
 
@@ -62,4 +102,7 @@ async function loadPrettier() {
   }
 
   fs.writeFileSync(abs, out, "utf8");
-})();
+})().catch((e) => {
+  console.error(e?.message || e);
+  process.exit(1);
+});

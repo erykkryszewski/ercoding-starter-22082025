@@ -17,11 +17,7 @@ $content = get_field("content");
         <div class="three-columns-content__item">
           <h3 class="three-columns-content__title"><?php echo apply_filters('the_title', $item['title']); ?></h3>
           <?php echo apply_filters('the_title', $item['text']); ?> <?php if (!empty($item['button'])): ?>
-          <a href="<?php echo esc_html($item['button']['url']); ?>" class="button button--ghost three-columns-content__button">
-            <?php echo esc_html(
-              $item['button']['title'],
-            ); ?>
-          </a>
+          <a href="<?php echo esc_html($item['button']['url']); ?>" class="button button--ghost three-columns-content__button"><?php echo esc_html( $item['button']['title'], ); ?></a>
           <?php endif; ?>
         </div>
       </div>

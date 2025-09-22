@@ -48,10 +48,7 @@ have_posts()) : ?>
                 <span class="theme-blog__time">
                   <time><?php the_time('F j, Y'); ?></time>
                 </span>
-                <p class="small">
-                  <?php $excerpt = get_the_excerpt(); if (empty($excerpt)) { $content = get_the_content(); echo wp_trim_words($content, 15, '...'); } else { echo wp_trim_words($excerpt, 15, '...'); }
-                  ?>
-                </p>
+                <p class="small"><?php $excerpt = get_the_excerpt(); if (empty($excerpt)) { $content = get_the_content(); echo wp_trim_words($content, 15, '...'); } else { echo wp_trim_words($excerpt, 15, '...'); } ?></p>
               </div>
               <a href="<?php the_permalink(); ?>" class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
             </div>
@@ -69,10 +66,7 @@ have_posts()) : ?>
                 <span class="theme-blog__time">
                   <time><?php the_time('F j, Y'); ?></time>
                 </span>
-                <p class="small">
-                  <?php $excerpt = get_the_excerpt(); if (empty($excerpt)) { $content = get_the_content(); echo wp_trim_words($content, 15, '...'); } else { echo wp_trim_words($excerpt, 15, '...'); }
-                  ?>
-                </p>
+                <p class="small"><?php $excerpt = get_the_excerpt(); if (empty($excerpt)) { $content = get_the_content(); echo wp_trim_words($content, 15, '...'); } else { echo wp_trim_words($excerpt, 15, '...'); } ?></p>
               </div>
               <a href="<?php the_permalink(); ?>" class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
             </div>
@@ -80,7 +74,7 @@ have_posts()) : ?>
         </div>
         <div class="<?php echo esc_html($column_classes); ?> theme-blog__column">
           <div class="theme-blog__item">
-            <div class="theme-blog__image <?php if ($posts_number == 2) { echo 'theme-blog__image--bigger'; } ?> <?php if ($posts_number == 4) { echo 'theme-blog__image--smaller';  } ?>">
+            <div class="theme-blog__image <?php if ($posts_number == 2) { echo 'theme-blog__image--bigger'; } ?> <?php if ($posts_number == 4) { echo 'theme-blog__image--smaller'; } ?>">
               <a href="<?php the_permalink(); ?>" class="cover"></a>
               <?php echo wp_get_attachment_image(get_post_thumbnail_id(), 'large', '', [ 'class' => 'object-fit-cover', ]); ?>
             </div>
@@ -90,10 +84,7 @@ have_posts()) : ?>
                 <span class="theme-blog__time">
                   <time><?php the_time('F j, Y'); ?></time>
                 </span>
-                <p class="small">
-                  <?php $excerpt = get_the_excerpt(); if (empty($excerpt)) { $content = get_the_content(); echo wp_trim_words($content, 15, '...'); } else { echo wp_trim_words($excerpt, 15, '...'); }
-                  ?>
-                </p>
+                <p class="small"><?php $excerpt = get_the_excerpt(); if (empty($excerpt)) { $content = get_the_content(); echo wp_trim_words($content, 15, '...'); } else { echo wp_trim_words($excerpt, 15, '...'); } ?></p>
               </div>
               <a href="<?php the_permalink(); ?>" class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
             </div>
