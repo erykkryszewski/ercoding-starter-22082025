@@ -21,7 +21,10 @@
     "format": "prettier --write .",
     "blocks:apply": "node js/tools/blocks-apply.js",
     "check": "prettier --check .",
-    "update-browserslist": "npx browserslist@latest --update-db"
+    "update-browserslist": "npx browserslist@latest --update-db",
+    "wpfmt": "node js/tools/wp-format-template-php.js",
+    "prettier": "prettier",
+    "stylelint": "stylelint"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -37,6 +40,11 @@
     "postcss-cli": "^11.0.1",
     "prettier": "^3.6.2",
     "sass": "^1.92.1",
+    "stylelint": "15",
+    "stylelint-config-recommended-scss": "13",
+    "stylelint-config-standard": "34",
+    "stylelint-order": "6",
+    "stylelint-scss": "5",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9"
   },
