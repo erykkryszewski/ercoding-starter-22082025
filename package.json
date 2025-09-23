@@ -6,8 +6,8 @@
     },
     "license": "GPL-3.0-or-later",
     "scripts": {
-        "build:style": "sass --load-path=node_modules --style=expanded style.scss style.css && postcss -r style.css",
-        "build:style-editor": "sass --load-path=node_modules --style=expanded style-editor.scss style-editor.css && postcss -r style-editor.css",
+        "build:style": "sass --no-source-map --load-path=node_modules --style=compressed style.scss style.css && postcss -r --no-map style.css",
+        "build:style-editor": "sass --no-source-map --load-path=node_modules --style=compressed style-editor.scss style-editor.css && postcss -r --no-map style-editor.css",
         "build:scripts:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack --mode=development",
         "build:scripts:prod": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack --mode=production",
         "build-dev": "run-p build:style build:style-editor build:scripts:dev",
