@@ -216,21 +216,6 @@ $text=get_field('text');
     ensureFile(p, html);
 }
 
-function scaffoldPhpFrontend(dir, slug) {
-    const p = path.join(dir, `${slug}.php`);
-    const cls = slug;
-    const php = `<?php
-
-$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-$background = get_field('background');
-$section_id = get_field('section_id');
-
-?>
-<div class="${cls}"></div>
-`;
-    ensureFile(p, php);
-}
-
 function scaffoldScssBlock(dir, slug) {
     const p = path.join(dir, `_${slug}.scss`);
     const cls = slug;
@@ -406,13 +391,11 @@ function run() {
         scssWoo: path.resolve("scss/woocommerce"),
         jsWoo: path.resolve("js/src/woocommerce"),
         acfLocal: path.resolve("acf/local-json"),
-        blocksDir: path.resolve("blocks"), // frontend templates
     };
 
     // scaffold
     keep.forEach((slug) => {
         scaffoldPhpBlock(paths.phpBlocks, slug);
-        scaffoldPhpFrontend(paths.blocksDir, slug);
         scaffoldScssBlock(paths.scssBlocks, mapSlug(slug, scssAliases));
         scaffoldJsBlock(paths.jsBlocks, mapSlug(slug, jsAliases));
         ensureAcfJson(paths.acfLocal, slug);
@@ -421,7 +404,6 @@ function run() {
     // prune
     const removed = {
         php: pruneDir(paths.phpBlocks, keepSet, [".php"]),
-        phpFrontend: pruneDir(paths.blocksDir, keepSet, [".php"]),
         scss: pruneDir(paths.scssBlocks, keepSet, [".scss"], scssAliases),
         js: pruneDir(paths.jsBlocks, keepSet, [".js", ".mjs", ".ts"], jsAliases),
         acfJson: pruneAcfLocalJson(paths.acfLocal, keep, acfAliases),
