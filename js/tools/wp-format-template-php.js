@@ -2,10 +2,8 @@
 const fs = require("fs");
 const path = require("path");
 
-// ---------- helpers ----------
 const normalizeLF = (s) => s.replace(/\r\n?/g, "\n");
 
-// Collapse weird line breaks INSIDE any <?php ... ?> block (templates only)
 function collapsePhpBlockNewlines(str) {
     return str.replace(/<\?php([\s\S]*?)\?>/g, (m, inner) => {
         let s = inner;
@@ -20,7 +18,6 @@ function collapsePhpBlockNewlines(str) {
     });
 }
 
-// Collapse whitespace in attribute values that contain inline PHP
 function collapseInlinePhpWhitespaceInAttrs(html) {
     return html.replace(/=(["'])([^"']*<\?php[\s\S]*?\?>[^"']*)\1/g, (m, q, inner) => {
         const collapsed = inner
@@ -32,7 +29,6 @@ function collapseInlinePhpWhitespaceInAttrs(html) {
     });
 }
 
-// Prefer one-line attributes when not too long
 function collapseMultilineAttributes(html, maxLen = 240) {
     return html.replace(/<([a-zA-Z][\w:-]*)(\s+[^>]*?)>/g, (m, tag, attrs) => {
         if (!/\n/.test(attrs)) return m;
@@ -41,10 +37,6 @@ function collapseMultilineAttributes(html, maxLen = 240) {
     });
 }
 
-/**
- * Encode `<tag <?php ... ?>>` into `<tag __phpattrs__="__TOKEN__">` so Prettier can parse,
- * then restore after formatting.
- */
 function encodePhpRightAfterTagName(html) {
     const map = [];
     let idx = 0;
@@ -63,21 +55,13 @@ function restorePhpRightAfterTagName(html, map) {
     return out;
 }
 
-/**
- * Add HTML shims for partial templates:
- * - If file has </body> but no <body ...>, prepend `<body data-wp-shim>`
- * - If file has </html> but no <html ...>, prepend `<html data-wp-shim>`
- * Return what we added so we can remove just those *openers* later.
- */
 function addPartialShims(html) {
     const hasOpenBody = /<body\b/i.test(html);
     const hasCloseBody = /<\/body>/i.test(html);
     const hasOpenHtml = /<html\b/i.test(html);
     const hasCloseHtml = /<\/html>/i.test(html);
-
     let prefix = "";
     const added = { openHtml: false, openBody: false };
-
     if (hasCloseHtml && !hasOpenHtml) {
         prefix += "<html data-wp-shim>";
         added.openHtml = true;
@@ -99,33 +83,94 @@ function removePartialShims(html, added) {
     return out;
 }
 
+function encodeIgnoreBlocks(input) {
+    const patterns = [
+        {
+            start: /<!--\s*(?:stop-formatting|wpfmt-ignore-start)\s*-->/i,
+            end: /<!--\s*(?:start-formatting|wpfmt-ignore-end)\s*-->/i,
+            wrap: (t) => `<!-- ${t} -->`,
+        },
+        {
+            start: /\/\*\s*(?:stop-formatting|wpfmt-ignore-start)\s*\*\//i,
+            end: /\/\*\s*(?:start-formatting|wpfmt-ignore-end)\s*\*\//i,
+            wrap: (t) => `/* ${t} */`,
+        },
+        {
+            start: /\/\/\s*(?:stop-formatting|wpfmt-ignore-start)\b[^\n]*\n?/i,
+            end: /\/\/\s*(?:start-formatting|wpfmt-ignore-end)\b[^\n]*\n?/i,
+            wrap: (t) => `/* ${t} */`,
+        },
+        {
+            start: /\b(?:stop-formatting|wpfmt-ignore-start)\b/i,
+            end: /\b(?:start-formatting|wpfmt-ignore-end)\b/i,
+            wrap: (t) => `<!-- ${t} -->`,
+        },
+    ];
+    let out = input;
+    const map = [];
+    let idx = 0;
+    let cursor = 0;
+    while (true) {
+        let found = null;
+        for (const p of patterns) {
+            const sub = out.slice(cursor);
+            const m = p.start.exec(sub);
+            if (m) {
+                const absIdx = cursor + m.index;
+                if (!found || absIdx < found.absIdx) {
+                    found = { p, m, absIdx, startLen: m[0].length };
+                }
+            }
+        }
+        if (!found) break;
+        const startIdx = found.absIdx;
+        const afterStart = startIdx + found.startLen;
+        const subAfter = out.slice(afterStart);
+        const mend = found.p.end.exec(subAfter);
+        let endIdx, endLen;
+        if (mend) {
+            endIdx = afterStart + mend.index;
+            endLen = mend[0].length;
+        } else {
+            endIdx = out.length;
+            endLen = 0;
+        }
+        const original = out.slice(startIdx, endIdx + endLen);
+        const token = `__WPFMT_IGNORE_${idx++}__`;
+        const replacement = found.p.wrap(token);
+        out = out.slice(0, startIdx) + replacement + out.slice(endIdx + endLen);
+        cursor = startIdx + replacement.length;
+        map.push({ token, original });
+    }
+    return { html: out, map };
+}
+function restoreIgnoreBlocks(input, map) {
+    let out = input;
+    for (const { token, original } of map) {
+        const re = new RegExp(`<!--\\s*${token}\\s*-->|/\\*\\s*${token}\\s*\\*/`, "g");
+        out = out.replace(re, original);
+    }
+    return out;
+}
+
 async function loadPrettier() {
-    // Prettier 3 is ESM; dynamic import from CJS
-    // eslint-disable-next-line no-eval
     return (await eval("import('prettier')")).default;
 }
 
-// ---------- main ----------
 (async () => {
     const file = process.argv[2];
     if (!file) {
-        console.error("Missing file path");
         process.exit(2);
     }
     const abs = path.resolve(file);
-
     const rel = path.relative(process.cwd(), abs).replace(/\\/g, "/");
     const isBlocks = /(^|\/)acf\/blocks\/[^/]+\.php$/.test(rel);
     const isRootPhp = /^[^/]+\.php$/.test(rel) && path.basename(abs) !== "functions.php";
     if (!(isBlocks || isRootPhp)) process.exit(0);
-
     const raw = fs.readFileSync(abs, "utf8");
     const prettier = await loadPrettier();
-
     let preamble = "";
     let body = raw;
-
-    // Split a leading PHP block (vars) from the rest (HTML + inline PHP)
     if (raw.startsWith("<?php")) {
         const end = raw.indexOf("?>");
         if (end !== -1) {
@@ -133,10 +178,7 @@ async function loadPrettier() {
             body = raw.slice(end + 2);
         }
     }
-
     let out = "";
-
-    // Format preamble as PHP and add exactly one blank line
     if (preamble) {
         const fmtPhp = await prettier.format(normalizeLF(preamble), {
             parser: "php",
@@ -146,20 +188,13 @@ async function loadPrettier() {
         });
         out += fmtPhp.trimEnd() + "\n\n";
     }
-
     if (body) {
-        // normalize + enforce your oneliner style
         let html = normalizeLF(body).replace(/^\s+/, "");
-        html = collapsePhpBlockNewlines(html);
-        html = collapseInlinePhpWhitespaceInAttrs(html);
-        html = collapseMultilineAttributes(html, 240);
-
-        // Encode `<tag <?php ... ?>>` cases
+        const encIgnored = encodeIgnoreBlocks(html);
+        html = encIgnored.html;
+        const ignoreMap = encIgnored.map;
         const { html: encoded, map } = encodePhpRightAfterTagName(html);
-
-        // Add shims for partial templates (e.g., footer.php)
         const { html: shimmed, added } = addPartialShims(encoded);
-
         let formatted;
         try {
             formatted = await prettier.format(shimmed, {
@@ -170,21 +205,17 @@ async function loadPrettier() {
                 tabWidth: 4,
             });
         } catch (err) {
-            // If HTML is actually broken, keep the shimmed content (still valid) so we can restore and continue
-            console.error(String(err));
             formatted = shimmed;
         }
-
-        // Restore placeholders and remove only the added shim *openers*
         let restored = restorePhpRightAfterTagName(formatted, map);
         restored = removePartialShims(restored, added);
-
-        // Final safety pass for any PHP newlines that slipped through
-        out += collapsePhpBlockNewlines(restored);
+        restored = collapsePhpBlockNewlines(restored);
+        restored = collapseInlinePhpWhitespaceInAttrs(restored);
+        restored = collapseMultilineAttributes(restored, 240);
+        restored = restoreIgnoreBlocks(restored, ignoreMap);
+        out += restored;
     }
-
     fs.writeFileSync(abs, out, "utf8");
-})().catch((e) => {
-    console.error(e?.message || e);
+})().catch(() => {
     process.exit(1);
 });
