@@ -29,7 +29,7 @@
         "format:js": "prettier --write \"**/*.{js,mjs,cjs}\"",
         "format:json": "prettier --write \"**/*.{json,html}\"",
         "format:php:core": "prettier --plugin=@prettier/plugin-php --parser php --write \"functions.php\" \"lib/**/*.php\"",
-        "format:php:templates": "find . -type f -name \"*.php\" -not -path \"./lib/*\" -not -name \"functions.php\" -exec node ./js/tools/wp-format-template-php.js {} \\;",
+        "format:php:templates": "find ./acf/blocks -type f -name \"*.php\" -exec node ./js/tools/wp-format-template-php.js {} \\; && find . -maxdepth 1 -type f -name \"*.php\" ! -name \"functions.php\" -exec node ./js/tools/wp-format-template-php.js {} \\;",
         "format:all": "yarn format:scss && yarn format:js && yarn format:json && yarn format:php:core && yarn format:php:templates"
     },
     "devDependencies": {

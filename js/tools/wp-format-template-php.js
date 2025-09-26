@@ -113,6 +113,12 @@ async function loadPrettier() {
         process.exit(2);
     }
     const abs = path.resolve(file);
+
+    const rel = path.relative(process.cwd(), abs).replace(/\\/g, "/");
+    const isBlocks = /(^|\/)acf\/blocks\/[^/]+\.php$/.test(rel);
+    const isRootPhp = /^[^/]+\.php$/.test(rel) && path.basename(abs) !== "functions.php";
+    if (!(isBlocks || isRootPhp)) process.exit(0);
+
     const raw = fs.readFileSync(abs, "utf8");
     const prettier = await loadPrettier();
 
