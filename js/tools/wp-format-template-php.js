@@ -74,12 +74,8 @@ function addPartialShims(html) {
 }
 function removePartialShims(html, added) {
     let out = html;
-    if (added.openBody) {
-        out = out.replace(/<body\b[^>]*data-wp-shim[^>]*>/i, "");
-    }
-    if (added.openHtml) {
-        out = out.replace(/<html\b[^>]*data-wp-shim[^>]*>/i, "");
-    }
+    if (added.openBody) out = out.replace(/<body\b[^>]*data-wp-shim[^>]*>/i, "");
+    if (added.openHtml) out = out.replace(/<html\b[^>]*data-wp-shim[^>]*>/i, "");
     return out;
 }
 
@@ -153,22 +149,59 @@ function restoreIgnoreBlocks(input, map) {
     return out;
 }
 
+function shouldProtectRoots(base, html) {
+    const hasOpenHtml = /<html\b/i.test(html);
+    const hasCloseHtml = /<\/html>/i.test(html);
+    const hasOpenBody = /<body\b/i.test(html);
+    const hasCloseBody = /<\/body>/i.test(html);
+    if (base.toLowerCase() === "header.php") return true;
+    if (base.toLowerCase() === "footer.php") return true;
+    if ((hasOpenHtml && !hasCloseHtml) || (hasOpenBody && !hasCloseBody)) return true;
+    return false;
+}
+
+function encodeRoots(html) {
+    let out = html;
+    out = out.replace(/<html\b/gi, "<wp-html");
+    out = out.replace(/<\/html>/gi, "</wp-html>");
+    out = out.replace(/<body\b/gi, "<wp-body");
+    out = out.replace(/<\/body>/gi, "</wp-body>");
+    return out;
+}
+function decodeRoots(html, base) {
+    let out = html;
+    out = out.replace(/<wp-html/gi, "<html");
+    out = out.replace(/<wp-body/gi, "<body");
+    if (base.toLowerCase() === "header.php") {
+        out = out.replace(/<\/wp-html>/gi, "");
+        out = out.replace(/<\/wp-body>/gi, "");
+    } else if (base.toLowerCase() === "footer.php") {
+        out = out.replace(/<\/wp-html>/gi, "</html>");
+        out = out.replace(/<\/wp-body>/gi, "</body>");
+    } else {
+        out = out.replace(/<\/wp-html>/gi, "</html>");
+        out = out.replace(/<\/wp-body>/gi, "</body>");
+    }
+    return out;
+}
+
 async function loadPrettier() {
     return (await eval("import('prettier')")).default;
 }
 
 (async () => {
     const file = process.argv[2];
-    if (!file) {
-        process.exit(2);
-    }
+    if (!file) process.exit(2);
     const abs = path.resolve(file);
     const rel = path.relative(process.cwd(), abs).replace(/\\/g, "/");
+    const base = path.basename(abs);
     const isBlocks = /(^|\/)acf\/blocks\/[^/]+\.php$/.test(rel);
-    const isRootPhp = /^[^/]+\.php$/.test(rel) && path.basename(abs) !== "functions.php";
+    const isRootPhp = /^[^/]+\.php$/.test(rel) && base !== "functions.php";
     if (!(isBlocks || isRootPhp)) process.exit(0);
+
     const raw = fs.readFileSync(abs, "utf8");
     const prettier = await loadPrettier();
+
     let preamble = "";
     let body = raw;
     if (raw.startsWith("<?php")) {
@@ -178,6 +211,7 @@ async function loadPrettier() {
             body = raw.slice(end + 2);
         }
     }
+
     let out = "";
     if (preamble) {
         const fmtPhp = await prettier.format(normalizeLF(preamble), {
@@ -188,16 +222,27 @@ async function loadPrettier() {
         });
         out += fmtPhp.trimEnd() + "\n\n";
     }
+
     if (body) {
         let html = normalizeLF(body).replace(/^\s+/, "");
+        const protect = shouldProtectRoots(base, html);
+        if (protect) html = encodeRoots(html);
+
         const encIgnored = encodeIgnoreBlocks(html);
         html = encIgnored.html;
         const ignoreMap = encIgnored.map;
-        const { html: encoded, map } = encodePhpRightAfterTagName(html);
-        const { html: shimmed, added } = addPartialShims(encoded);
+
+        const encPhpEarly = encodePhpRightAfterTagName(html);
+        html = encPhpEarly.html;
+        const phpMap = encPhpEarly.map;
+
+        const shim = addPartialShims(html);
+        html = shim.html;
+        const added = shim.added;
+
         let formatted;
         try {
-            formatted = await prettier.format(shimmed, {
+            formatted = await prettier.format(html, {
                 parser: "html",
                 embeddedLanguageFormatting: "off",
                 htmlWhitespaceSensitivity: "ignore",
@@ -205,16 +250,20 @@ async function loadPrettier() {
                 tabWidth: 4,
             });
         } catch (err) {
-            formatted = shimmed;
+            formatted = html;
         }
-        let restored = restorePhpRightAfterTagName(formatted, map);
+
+        let restored = restorePhpRightAfterTagName(formatted, phpMap);
         restored = removePartialShims(restored, added);
         restored = collapsePhpBlockNewlines(restored);
         restored = collapseInlinePhpWhitespaceInAttrs(restored);
         restored = collapseMultilineAttributes(restored, 240);
         restored = restoreIgnoreBlocks(restored, ignoreMap);
+        if (protect) restored = decodeRoots(restored, base);
+
         out += restored;
     }
+
     fs.writeFileSync(abs, out, "utf8");
 })().catch(() => {
     process.exit(1);
