@@ -8,34 +8,31 @@
 
     &__image {
         width: 100%;
-        max-width: 350px;
-        height: 300px;
+        max-width: 335px;
+        height: 320px;
         flex-shrink: 0;
         position: relative;
         z-index: 3;
-        margin: 20px 0 0 20px;
+        margin: 3px 0 0;
+
+        @media (width <= 767px) {
+            margin: 20px 0 0;
+        }
 
         img {
             position: relative;
             z-index: 2;
-            border: 3px solid $white;
+            border-radius: 18px;
+            filter: brightness(0.98);
+            object-position: top;
         }
-    }
-
-    &__image-decorator {
-        display: block;
-        content: "";
-        z-index: 1;
-        background: $theme-color;
-        width: 350px;
-        height: 300px;
-        position: absolute;
-        top: -20px;
-        left: -20px;
     }
 
     &__subtitle {
         margin: 20px 0 0;
+
+        @extend .paragraph;
+        font-size: 15px;
     }
 
     &__details {
@@ -45,14 +42,19 @@
         align-items: flex-start;
         justify-content: flex-start;
         text-align: left;
+        max-width: 360px;
+
+        @media (width <= 767px) {
+            max-width: 100%;
+        }
 
         > p {
             margin: 13px 0 0;
 
             span {
                 font-weight: 600;
-                display: inline-block;
                 position: relative;
+                display: inline-block;
 
                 &::after {
                     width: 100%;
@@ -61,39 +63,38 @@
                     display: block;
                     background: $theme-color;
                     position: absolute;
-                    bottom: -2px;
+                    bottom: -3px;
                     left: 0;
+
+                    @media (width <= 767px) {
+                        bottom: 0;
+                    }
                 }
             }
-        }
-
-        @media (width <= 767px) {
-            align-items: center;
-            justify-content: center;
         }
     }
 
     &__phone,
     &__email {
         display: flex;
+
+        @extend .paragraph;
+        font-size: 15px;
         margin: 0;
         gap: 8px;
         color: $text-color;
-        font-weight: 500;
 
         &::before {
             content: "";
             display: block;
-            filter: brightness(0.2);
+            filter: brightness(0) invert(0.3);
             position: relative;
-            bottom: -2px;
+            bottom: 0;
         }
 
         &:hover {
             color: $text-color;
         }
-
-        @extend .paragraph;
     }
 
     &__phone {
@@ -125,10 +126,6 @@
 
         p {
             margin: 0;
-
-            @media (width <= 767px) {
-                text-align: center;
-            }
         }
     }
 
@@ -137,6 +134,12 @@
         padding: 50px;
         box-shadow: 0 1px 20px 0 rgb(0 0 0 / 10%);
         background-color: $white;
+        border-radius: 20px;
+
+        @media (width <= 767px) {
+            margin: 30px 0 0;
+            padding: 30px 25px 25px;
+        }
 
         form {
             .gform_body {
@@ -195,23 +198,25 @@
                 text-align: right;
                 display: block !important;
 
-                input {
-                    border-radius: $theme-border-radius !important;
+                @media (width <= 767px) {
+                    margin: 25px 0 0 !important;
+                    text-align: left;
+                    align-items: flex-start;
+                    justify-content: flex-start;
                 }
 
-                @media (width <= 767px) {
-                    text-align: center;
-                    margin: 25px 0 0 !important;
+                input {
+                    border-radius: $theme-border-radius !important;
+                    text-align: center !important;
+                    display: inline-flex;
+                    justify-content: center;
                 }
             }
         }
 
         .gform_confirmation_message {
             @extend .paragraph;
-        }
-
-        @media (width <= 767px) {
-            margin: 30px 0 0;
+            font-size: 15px;
         }
     }
 }

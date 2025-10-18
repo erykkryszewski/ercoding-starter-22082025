@@ -259,5 +259,100 @@ add_filter("pre_site_transient_update_plugins", "__return_null");
 add_filter("pre_site_transient_update_themes", "__return_null");
 
 add_action("admin_footer-index.php", function () {
-    echo '<style>#dashboard-widgets-wrap,#welcome-panel,.notice,.update-nag,#screen-meta,#screen-meta-links{display:none!important}.erc-msg{margin:10px 0 0;text-align:left;font-size:17px;font-weight:400}</style><script>document.addEventListener("DOMContentLoaded",function(){var h=document.querySelector(".wrap h1");if(h){var d=document.createElement("div");d.className="erc-msg";d.textContent="Finally there is no mess here 😊";h.insertAdjacentElement("afterend",d);}});</script>';
+    global $wpdb;
+
+    $db_version_raw = $wpdb->get_var("SELECT VERSION()");
+    $db_is_mariadb = is_string($db_version_raw) && stripos($db_version_raw, "mariadb") !== false;
+    $db_type = $db_is_mariadb ? "MariaDB" : "MySQL";
+    $db_version = is_string($db_version_raw) ? $db_version_raw : "";
+
+    $curl_info = function_exists("curl_version") ? curl_version() : null;
+    $curl_version_text = $curl_info ? $curl_info["version"] : "not available";
+    $curl_ssl_text =
+        $curl_info && isset($curl_info["ssl_version"]) ? $curl_info["ssl_version"] : "";
+
+    $gd_available = extension_loaded("gd");
+    $gd_version =
+        $gd_available && function_exists("gd_info")
+            ? gd_info()["GD Version"] ?? "enabled"
+            : "not available";
+
+    $imagick_available = class_exists("Imagick");
+    $opcache_enabled = function_exists("opcache_get_status") && (bool) ini_get("opcache.enable");
+
+    $php_memory_limit = ini_get("memory_limit");
+    $php_post_max_size = ini_get("post_max_size");
+    $php_upload_max_filesize = ini_get("upload_max_filesize");
+    $php_max_execution_time = ini_get("max_execution_time");
+    $php_max_input_vars = ini_get("max_input_vars");
+    $php_max_input_time = ini_get("max_input_time");
+
+    $max_upload_human = function_exists("size_format")
+        ? size_format(wp_max_upload_size())
+        : (string) wp_max_upload_size();
+    $memory_usage_human = function_exists("size_format")
+        ? size_format(memory_get_usage(true))
+        : (string) memory_get_usage(true);
+
+    $server_software = isset($_SERVER["SERVER_SOFTWARE"]) ? $_SERVER["SERVER_SOFTWARE"] : "";
+    $filesystem_method = function_exists("get_filesystem_method") ? get_filesystem_method() : "";
+    $is_multisite_text = is_multisite() ? "yes" : "no";
+    $wp_debug_text = defined("WP_DEBUG") && WP_DEBUG ? "true" : "false";
+
+    $items = [
+        ["WordPress", get_bloginfo("version")],
+        ["Site URL", get_site_url()],
+        ["Home URL", home_url()],
+        ["Locale", get_locale()],
+        ["Multisite", $is_multisite_text],
+        ["PHP version", PHP_VERSION],
+        ["PHP memory_limit", $php_memory_limit],
+        ["post_max_size", $php_post_max_size],
+        ["upload_max_filesize", $php_upload_max_filesize],
+        ["max_execution_time", $php_max_execution_time],
+        ["max_input_vars", $php_max_input_vars],
+        ["max_input_time", $php_max_input_time],
+        ["OPcache", $opcache_enabled ? "enabled" : "disabled"],
+        ["cURL", trim($curl_version_text . " " . $curl_ssl_text)],
+        ["GD", $gd_version],
+        ["Imagick", $imagick_available ? "enabled" : "not available"],
+        ["Database", trim($db_type . " " . $db_version)],
+        ["DB host", defined("DB_HOST") ? DB_HOST : ""],
+        ["DB charset", $wpdb->charset],
+        ["DB collate", $wpdb->collate],
+        ["Server software", $server_software],
+        ["Filesystem method", $filesystem_method],
+        ["WP_DEBUG", $wp_debug_text],
+        ["Max upload (WP)", $max_upload_human],
+        ["Current memory usage", $memory_usage_human],
+    ];
+
+    echo '<style>
+    #dashboard-widgets-wrap,#welcome-panel,.notice,.update-nag,#screen-meta,#screen-meta-links{display:none!important}
+    .erc-sysinfo-wrap{margin:14px 0 0}
+    .erc-sysinfo-card{background:#fff;border:1px solid #e2e4e7;border-radius:8px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+    .erc-sysinfo-head{padding:14px 16px;font-size:18px;font-weight:600;border-bottom:1px solid #eaecef}
+    .erc-sysinfo-grid{display:grid;grid-template-columns:1fr 2fr;gap:0;border-top:0}
+    .erc-sysinfo-row{display:contents}
+    .erc-sysinfo-key,.erc-sysinfo-val{padding:10px 16px;border-top:1px solid #f1f3f5}
+    .erc-sysinfo-key{background:#fafbfc;color:#1f2328;font-weight:600}
+    .erc-sysinfo-val{background:#fff;word-break:break-all}
+    @media (max-width:782px){.erc-sysinfo-grid{grid-template-columns:1fr}.erc-sysinfo-key{border-right:none}}
+    </style>';
+
+    echo '<script>document.addEventListener("DOMContentLoaded",function(){var header=document.querySelector(".wrap h1");if(!header){return}var wrap=document.createElement("div");wrap.className="erc-sysinfo-wrap";var card=document.createElement("div");card.className="erc-sysinfo-card";var head=document.createElement("div");head.className="erc-sysinfo-head";head.textContent="Some information about the site";var grid=document.createElement("div");grid.className="erc-sysinfo-grid";card.appendChild(head);card.appendChild(grid);wrap.appendChild(card);header.insertAdjacentElement("afterend",wrap);});</script>';
+
+    echo "<script>";
+    echo 'document.addEventListener("DOMContentLoaded",function(){var grid=document.querySelector(".erc-sysinfo-grid"); if(!grid){return;}';
+    foreach ($items as $pair) {
+        $k = esc_html($pair[0]);
+        $v = esc_html((string) $pair[1]);
+        echo 'var row=document.createElement("div");row.className="erc-sysinfo-row";var k=document.createElement("div");k.className="erc-sysinfo-key";k.textContent="' .
+            $k .
+            '";var v=document.createElement("div");v.className="erc-sysinfo-val";v.textContent="' .
+            $v .
+            '";grid.appendChild(k);grid.appendChild(v);';
+    }
+    echo "});";
+    echo "</script>";
 });

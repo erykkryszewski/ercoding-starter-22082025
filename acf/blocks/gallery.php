@@ -19,7 +19,7 @@ $full_width = get_field("full_width");
             <div class="gallery__item">
                 <?php $full_image_src = wp_get_attachment_image_src($item['image'], 'full'); $image_size = $full_width == 'true' ? 'large' : 'medium'; ?> <?php if (!empty($item['image'])): ?>
                 <a class="gallery__image <?php if ($full_width == 'true') { echo 'gallery__image--full-width'; } ?>" data-fancybox="gallery" href="<?php echo esc_url($full_image_src[0]); ?>">
-                    <?php echo wp_get_attachment_image($item['image'], $image_size, false, [ 'class' => 'object-fit-cover', 'alt' => 'tacy-sami-galeria-' . ($key + 1), 'title' => 'tacy-sami-galeria-' . ($key + 1), ]); ?>
+                    <?php echo wp_get_attachment_image($item['image'], 'large', false, [ 'class' => 'object-fit-cover', 'alt' => 'galeria-' . ($key + 1), 'title' => 'galeria-' . ($key + 1), ]); ?>
                 </a>
                 <?php endif; ?>
             </div>

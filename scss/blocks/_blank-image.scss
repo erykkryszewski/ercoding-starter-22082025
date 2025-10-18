@@ -10,4 +10,12 @@
     @media (width <= 767px) {
         height: 330px !important;
     }
+
+    &--default {
+        height: auto !important;
+
+        @media (width <= 767px) {
+            height: auto !important;
+        }
+    }
 }
