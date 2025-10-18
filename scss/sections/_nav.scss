@@ -175,6 +175,28 @@
                 display: block;
                 min-width: 320px;
 
+                @media (width >= 1200px) {
+                    transform-origin: top;
+                    transform: scale(1, 0);
+                    transition: all 350ms ease;
+                    transition-delay: 200ms;
+                    position: absolute;
+                    top: 70px;
+                    background: $white;
+                    padding: 0;
+                    left: 5px;
+                    z-index: 10;
+                }
+
+                @media (width <= 1199px) {
+                    padding: 12px 0 15px;
+                    background: $very-light-gray;
+                    display: none;
+                    left: 0;
+                    right: 0;
+                    max-width: calc(100% - 30px);
+                }
+
                 li {
                     a {
                         color: $text-color;
@@ -205,27 +227,6 @@
                     @media (width >= 1200px) {
                         top: 56px;
                     }
-                }
-
-                @media (width >= 1200px) {
-                    transform-origin: top;
-                    transform: scale(1, 0);
-                    transition: all 350ms ease;
-                    position: absolute;
-                    top: 66px;
-                    background: $white;
-                    padding: 0;
-                    left: 5px;
-                    z-index: 10;
-                }
-
-                @media (width <= 1199px) {
-                    padding: 12px 0 15px;
-                    background: $very-light-gray;
-                    display: none;
-                    left: 0;
-                    right: 0;
-                    max-width: calc(100% - 30px);
                 }
             }
 

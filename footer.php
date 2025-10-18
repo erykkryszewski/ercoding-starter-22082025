@@ -8,41 +8,25 @@ $global_social_media = get_field("global_social_media", "options");
 $newsletter_shortcode = get_field("newsletter_shortcode", "options");
 $cookies_text = get_field("cookies_text", "options");
 $google_analytics_code = get_field("google_analytics_code", "options");
+$popup = get_field("popup", "options");
 
 $footer_second_column_content = get_field("footer_second_column_content", "options");
 $footer_third_column_content = get_field("footer_third_column_content", "options");
 
 ?>
 
-
-    
-        <?php if(!empty($newsletter_shortcode)):?>
-        <div class="popup popup--newsletter">
-            <div class="popup__wrapper popup__wrapper--newsletter">
-                <button class="popup__close popup__close--newsletter" id="popup-close-newsletter">×</button>
-                <div class="popup__content popup__content--newsletter">
-                    <h2 class="popup__title popup__title--newsletter">Zapisz się do newslettera!</h2>
-                    <p>Raz w tygodniu naszym subskrybentom naprawdę wartościowe treści. Nie spamujemy, ponieważ szanujemy Twój czas.</p>
-                    <div class="newsletter newsletter--popup"><?php echo do_shortcode($newsletter_shortcode);?></div>
+<?php if(!empty($popup == 'true')):?>
+            <div class="popup popup--promotion">
+                <div class="popup__wrapper popup__wrapper--promotion">
+                    <button class="popup__close popup__close--promotion" id="popup-close-promotion">×</button>
+                    <div class="popup__content popup__content--promotion">
+                        <h2 class="popup__title popup__title--promotion">Tylko teraz <span>zapoznaj się z naszą ofertą<span></h2>
+                        <p>Największe promocje, które już niedługo się kończą!</p>
+                        <a href="/oferta/" class="button popup__button">Zobacz ofertę</a>
+                    </div>
                 </div>
             </div>
-        </div>
         <?php endif;?>
-
-        <div class="popup popup--shop">
-            <div class="popup__wrapper popup__wrapper--shop">
-                <button class="popup__close popup__close--shop" id="popup-close-shop">×</button>
-                <div class="popup__content popup__content--shop">
-                    <h2 class="popup__title popup__title--shop">Otrzymałeś kod rabatowy!</h2>
-                    <p>
-                        Jeżeli zastanawiałeś się nad zakupami w naszym sklepie, to ciężko o lepszy moment!
-                        <span>Poniżej Twój kod na 10% rabatu!</span>
-                    </p>
-                    <h3 class="popup__code">TEST</h3>
-                    <button class="popup__copy button">Skopiuj kod</button>
-                </div>
-            </div>
-        </div>
 
         <footer class="footer <?php if(is_front_page()) { echo 'footer--homepage'; } ?>">
             <div class="container">

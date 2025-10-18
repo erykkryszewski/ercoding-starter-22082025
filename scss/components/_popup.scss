@@ -12,7 +12,7 @@
     inset: 0;
     padding: 15px;
 
-    &--newsletter {
+    &--promotion {
         z-index: 98;
     }
 
@@ -23,17 +23,15 @@
     &__wrapper {
         background: $white;
         box-shadow: 0 0 15px rgb(0 0 0 / 30%);
-        padding: 50px;
+        padding: 45px;
         width: 100%;
-        max-width: 500px;
+        max-width: 380px;
         max-height: 500px;
         border-radius: $theme-border-radius;
         position: relative;
 
         @media (width <= 767px) {
             padding: 25px;
-            max-height: 450px;
-            max-width: 100%;
         }
     }
 
@@ -52,8 +50,15 @@
             color: $theme-color2;
         }
 
-        &--newsletter {
-            color: $theme-color2;
+        &--promotion {
+            color: $theme-color;
+        }
+
+        span {
+            display: block;
+            margin: 5px auto 0;
+
+            @extend .h3;
         }
     }
 
@@ -75,8 +80,14 @@
 
             span {
                 display: block;
-                font-weight: 700;
+                font-weight: 600;
             }
+
+            @extend .h4;
         }
+    }
+
+    &__button {
+        margin: 5px auto 0;
     }
 }

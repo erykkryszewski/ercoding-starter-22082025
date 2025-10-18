@@ -33,10 +33,10 @@ $now = new DateTime("now", $user_timezone);
             </div>
             <div class="col-12 col-xl-7">
                 <div class="counter__time-wrapper" id="<?php echo esc_html($final_time->format('Y-m-d H:i:s')); ?>">
-                    <div class="counter__item counter__day">99</div>
-                    <div class="counter__item counter__hour">99</div>
-                    <div class="counter__item counter__minute">99</div>
-                    <div class="counter__item counter__second">99</div>
+                    <div class="counter__item counter__day">10</div>
+                    <div class="counter__item counter__hour">10</div>
+                    <div class="counter__item counter__minute">31</div>
+                    <div class="counter__item counter__second">11</div>
                 </div>
             </div>
         </div>

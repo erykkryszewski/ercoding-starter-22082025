@@ -36,7 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (el) el.textContent = String(value);
     }
 
-    let intervalId = setInterval(function () {
+    let intervalId;
+
+    function tick() {
         let now = new Date().getTime();
         let distance = countdownDate - now;
 
@@ -64,5 +66,13 @@ document.addEventListener("DOMContentLoaded", function () {
             fadeOut(counterElement, 600);
             clearInterval(intervalId);
         }
-    }, 1000);
+    }
+
+    tick();
+
+    requestAnimationFrame(function () {
+        timeWrapper.style.opacity = "1";
+    });
+
+    intervalId = setInterval(tick, 1000);
 });

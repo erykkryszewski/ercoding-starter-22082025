@@ -255,6 +255,31 @@
             "new_lines": ""
         },
         {
+            "key": "field_68f3ab5221c91",
+            "label": "Popup",
+            "name": "popup",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "true": "true",
+                "false": "false"
+            },
+            "default_value": "false",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "layout": "vertical",
+            "save_other_choice": 0
+        },
+        {
             "key": "field_600d97402d53e",
             "label": "Header",
             "name": "",
@@ -573,5 +598,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1757513779
+    "modified": 1760799610
 }

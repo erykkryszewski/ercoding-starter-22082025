@@ -1,64 +1,54 @@
-import $ from "jquery";
+document.addEventListener("DOMContentLoaded", function () {
+    const popup = document.querySelector(".popup--promotion");
 
-// $(document).ready(function() {
-//   function showPopup(selector) {
-//     $(selector).css('display', 'flex');
-//   }
+    if (!popup) return;
 
-//   function closePopup(selector) {
-//     $(selector).css('display', 'none');
-//   }
+    const closeButton = document.getElementById("popup-close-promotion");
+    const ctaButton = popup.querySelector(".popup__button");
+    const wrapper = popup.querySelector(".popup__wrapper--promotion");
 
-//   function shouldShowNewsletterPopup() {
-//     const url = window.location.href;
-//     return !/kursy|sklep|koszyk|kasa|produkt/.test(url) && !sessionStorage.getItem('newsletterPopupShown');
-//   }
+    if (!closeButton || !ctaButton) return;
 
-//   function shouldShowShopPopup() {
-//     const url = window.location.href;
-//     const discountShownTimestamp = localStorage.getItem('discountShownTimestamp');
-//     const currentTime = new Date().getTime();
-//     const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
+    if (sessionStorage.getItem("promotionPopupDismissed") === "true") {
+        return;
+    }
 
-//     const canShowDiscount = !discountShownTimestamp || (currentTime - discountShownTimestamp > oneMonthInMilliseconds);
+    function showPopup() {
+        popup.style.display = "flex";
+        setTimeout(() => {
+            popup.style.opacity = "1";
 
-//     return !/sklep|produkt|koszyk|kasa/.test(url) && localStorage.getItem('shopVisited') && canShowDiscount && !sessionStorage.getItem('shopPopupShown');
-//   }
+            setTimeout(() => {
+                popup.addEventListener("click", hidePopup);
+            }, 2000);
+        }, 10);
+    }
 
-//   // Newsletter Popup Logic
-//   if (shouldShowNewsletterPopup()) {
-//     setTimeout(function() {
-//       showPopup('.popup--newsletter');
-//     }, 8000);
-//   }
+    function hidePopup() {
+        popup.style.opacity = "0";
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 300);
+        sessionStorage.setItem("promotionPopupDismissed", "true");
+    }
 
-//   $('#popup-close-newsletter').on('click', function() {
-//     closePopup('.popup--newsletter');
-//     sessionStorage.setItem('newsletterPopupShown', 'true');
-//   });
+    popup.style.opacity = "0";
+    popup.style.transition = "opacity 0.3s ease-in-out";
 
-//   // Shop Popup Logic
-//   const currentUrl = window.location.href;
+    setTimeout(showPopup, 3000);
 
-//   if (/sklep|produkt/.test(currentUrl)) {
-//     localStorage.setItem('shopVisited', 'true');
-//   } else if (shouldShowShopPopup()) {
-//     setTimeout(function() {
-//       showPopup('.popup--shop');
-//     }, 30000);
-//   }
+    closeButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        hidePopup();
+    });
 
-//   $('#popup-close-shop').on('click', function() {
-//     closePopup('.popup--shop');
-//     sessionStorage.setItem('shopPopupShown', 'true');
-//     localStorage.setItem('discountShownTimestamp', new Date().getTime());
-//   });
+    ctaButton.addEventListener("click", function () {
+        hidePopup();
+    });
 
-//   // Copy Code to Clipboard
-//   $('.popup__copy').on('click', function() {
-//     const code = $('.popup__code').text().trim();
-//     navigator.clipboard.writeText(code).then(function() {
-//       $('.popup__copy').text('Skopiowano');
-//     });
-//   });
-// });
+    if (wrapper) {
+        wrapper.addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
+    }
+});
