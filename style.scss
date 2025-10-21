@@ -41,6 +41,7 @@ Text Domain: ercodingtheme
 @import "scss/components/bottom-bar";
 @import "scss/components/pagination";
 @import "scss/components/popup";
+@import "scss/components/cookies";
 
 /* @blocks:start */
 @import "scss/blocks/blank-button";
@@ -85,6 +86,7 @@ Text Domain: ercodingtheme
 @import "scss/blocks/two-images";
 @import "scss/blocks/theme-form";
 @import "scss/blocks/wyswig-content";
+
 /* @blocks:end */
 
 @import "scss/sections/header";
@@ -93,4 +95,3 @@ Text Domain: ercodingtheme
 @import "scss/sections/blog";
 @import "scss/sections/single";
 @import "scss/sections/rules-pages";
-

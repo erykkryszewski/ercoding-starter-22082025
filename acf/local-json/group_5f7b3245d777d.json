@@ -4,7 +4,7 @@
     "fields": [
         {
             "key": "field_5f7b3735d3c47",
-            "label": "Global",
+            "label": "Global info",
             "name": "",
             "aria-label": "",
             "type": "tab",
@@ -255,6 +255,23 @@
             "new_lines": ""
         },
         {
+            "key": "field_68f7893761898",
+            "label": "Global settings",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
             "key": "field_68f3ab5221c91",
             "label": "Popup",
             "name": "popup",
@@ -271,6 +288,31 @@
             "choices": {
                 "true": "true",
                 "false": "false"
+            },
+            "default_value": "false",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "layout": "vertical",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_68f7894e61899",
+            "label": "Orphans",
+            "name": "orphans",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "Clears lonely letters at the end of the sentences",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "true": "Enable",
+                "false": "Disable"
             },
             "default_value": "false",
             "return_format": "value",
@@ -598,5 +640,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760799610
+    "modified": 1761053408
 }
