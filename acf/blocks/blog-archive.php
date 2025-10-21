@@ -1,5 +1,4 @@
 <?php
-
 $url = "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
 $background = get_field("background");
 $section_id = get_field("section_id");
@@ -9,7 +8,6 @@ $posts_number = get_field("posts_number");
 $posts_title = get_field("posts_title");
 
 $column_classes = "col-12 col-md-6 col-lg-4";
-
 if ($posts_number == 2) {
     $column_classes = "col-12 col-md-6";
 } elseif ($posts_number == 4) {
@@ -34,28 +32,31 @@ $posts = new WP_Query($args);
             <h2 class="theme-blog__decorator"><?php echo esc_html($posts_title); ?></h2>
             <?php endif; ?>
             <div class="row">
-                <div class="<?php echo esc_html($column_classes); ?> theme-blog__column">
+                <?php while ($posts->have_posts()) : $posts->the_post(); ?>
+                <div class="<?php echo esc_attr($column_classes); ?> theme-blog__column">
                     <div class="theme-blog__item">
                         <div class="theme-blog__image <?php if ($posts_number == 2) { echo 'theme-blog__image--bigger'; } ?> <?php if ($posts_number == 4) { echo 'theme-blog__image--smaller'; } ?>">
-                            <a href="<?php the_permalink(); ?>" class="cover"></a>
-                            <?php echo wp_get_attachment_image(get_post_thumbnail_id(), 'large', '', [ 'class' => 'object-fit-cover', ]); ?>
+                            <a href="<?php echo esc_url(get_permalink()); ?>" class="cover"></a>
+                            <?php echo wp_get_attachment_image(get_post_thumbnail_id(), 'large', '', [ 'class' => 'object-fit-cover' ]); ?>
                         </div>
                         <div class="theme-blog__content">
                             <div>
-                                <a href="<?php the_permalink(); ?>" class="theme-blog__title"><?php the_title(); ?></a>
+                                <a href="<?php echo esc_url(get_permalink()); ?>" class="theme-blog__title"><?php the_title(); ?></a>
                                 <span class="theme-blog__time">
                                     <time><?php the_time('F j, Y'); ?></time>
                                 </span>
-                                <p class="small"><?php $excerpt = get_the_excerpt(); if (empty($excerpt)) { $content = get_the_content(); echo wp_trim_words($content, 15, '...'); } else { echo wp_trim_words($excerpt, 15, '...'); } ?></p>
+                                <p class="small">
+                                    <?php $excerpt = get_the_excerpt(); if (empty($excerpt)) { $content = get_the_content(); echo esc_html(wp_trim_words($content, 15, '...')); } else { echo esc_html(wp_trim_words($excerpt, 15, '...')); } ?>
+                                </p>
                             </div>
-                            <a href="<?php the_permalink(); ?>" class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
+                            <a href="<?php echo esc_url(get_permalink()); ?>" class="theme-blog__button"><?php _e('Czytaj więcej', 'ercodingtheme'); ?></a>
                         </div>
                     </div>
                 </div>
                 <?php endwhile; ?>
             </div>
         </div>
-        <?php wp_reset_postdata(); ?> <?php wp_reset_query(); ?>
+        <?php wp_reset_postdata(); wp_reset_query(); ?>
     </div>
 </div>
 <?php endif; ?>

@@ -8,24 +8,46 @@
         background: $very-light-gray;
     }
 
-    &__slider {
+    &__wrapper {
         width: 100%;
+    }
 
-        .slick-slide {
-            margin: 0 15px;
+    &__viewport {
+        width: 100%;
+        overflow: hidden;
+    }
 
-            @media (width <= 767px) {
-                margin: 0 7.5px;
-            }
+    &__items {
+        display: inline-flex;
+        align-items: center;
+        gap: 24px;
+        white-space: nowrap;
+        will-change: transform;
+        transform: translate3d(0, 0, 0);
+
+        .gallery.is-paused & {
+            transition: none;
         }
 
-        .slick-list {
-            margin: 0 -15px;
-
-            @media (width <= 767px) {
-                margin: 0 -7.5px;
-            }
+        @media (width <= 1399px) {
+            gap: 24px;
         }
+
+        @media (width <= 1199px) {
+            gap: 20px;
+        }
+
+        @media (width <= 991px) {
+            gap: 16px;
+        }
+
+        @media (width <= 767px) {
+            gap: 12px;
+        }
+    }
+
+    &__item {
+        flex: 0 0 auto;
     }
 
     &__image {
@@ -35,6 +57,7 @@
         padding: 0;
         overflow: hidden;
         background: $black;
+        display: block;
 
         &--full-width {
             height: 400px;
@@ -50,6 +73,13 @@
 
         @media (width <= 767px) {
             height: 200px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
     }
 

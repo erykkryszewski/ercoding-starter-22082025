@@ -19,6 +19,11 @@
     position: relative;
     overflow: hidden;
 
+    @media (width <= 449px) {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+
     &:hover {
         color: $white;
         border: 1px solid $theme-color;
@@ -116,11 +121,6 @@
         font-size: 13px !important;
         line-height: 2.15384615 !important;
         border: 1px solid #2271b1 !important;
-    }
-
-    @media (width <= 449px) {
-        padding: 9px 20px 9.5px;
-        font-size: 12px;
     }
 
     @keyframes mmpuu {

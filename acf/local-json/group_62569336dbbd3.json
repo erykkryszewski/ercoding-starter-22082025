@@ -21,6 +21,7 @@
             "max": 0,
             "layout": "table",
             "button_label": "Add Row",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_6256937865841",
@@ -48,8 +49,7 @@
                     "preview_size": "medium",
                     "parent_repeater": "field_6256936e65840"
                 }
-            ],
-            "rows_per_page": 20
+            ]
         },
         {
             "key": "field_6274202ef3829",
@@ -75,6 +75,53 @@
             "layout": "vertical",
             "return_format": "value",
             "save_other_choice": 0
+        },
+        {
+            "key": "field_68f7e061b8ddc",
+            "label": "Pause on hover",
+            "name": "pause_on_hover",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "true": "true",
+                "false": "false"
+            },
+            "default_value": "false",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "layout": "vertical",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_68f7e078b8ddd",
+            "label": "Speed",
+            "name": "speed",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 140,
+            "min": 50,
+            "max": 300,
+            "placeholder": "",
+            "step": "",
+            "prepend": "",
+            "append": ""
         }
     ],
     "location": [
@@ -95,5 +142,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1697489558
+    "modified": 1761075347
 }
