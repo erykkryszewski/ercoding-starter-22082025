@@ -39,3 +39,13 @@
         color: $white !important;
     }
 }
+
+.cky-btn-revisit-wrapper {
+    background: $theme-color !important;
+    position: absolute !important;
+    bottom: 65px !important;
+
+    @media (width <= 767px) {
+        bottom: 15px !important;
+    }
+}
