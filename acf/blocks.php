@@ -41,5 +41,6 @@ return [
 	'two-columns-text' => [ 'title' => __('Two Columns Text', 'ercodingtheme'), 'category' => 'ercodingtheme', 'align' => 'full' ],
 	'two-images' => [ 'title' => __('Two Images', 'ercodingtheme'), 'category' => 'ercodingtheme', 'align' => 'full' ],
 	'theme-form' => [ 'title' => __('Theme Form', 'ercodingtheme'), 'category' => 'ercodingtheme', 'align' => 'full' ],
+	'flip-cards' => [ 'title' => __('Flip Cards', 'ercodingtheme'), 'category' => 'ercodingtheme', 'align' => 'full' ],
 	'wyswig-content' => [ 'title' => __('Wyswig Content', 'ercodingtheme'), 'category' => 'ercodingtheme', 'align' => 'full' ],
 ];
